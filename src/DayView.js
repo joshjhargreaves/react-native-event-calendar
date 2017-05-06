@@ -53,7 +53,7 @@ export default class DayView extends React.PureComponent {
             }
             return (
                 <View key={i} style={[styles.event, style]} >
-                    <Text>Hello World</Text>
+                    <Text style={styles.eventTitle}>Hello World</Text>
                 </View>
             )
         });
@@ -62,7 +62,9 @@ export default class DayView extends React.PureComponent {
     render() {
         const {width} = this.props;
         return (
-            <ScrollView>
+            <ScrollView
+                removeClippedSubviews={false}
+            >
                 <View style={[styles.container, {width: width}]}>
                     {this.renderLines()}
                     {this.renderEvents()}
@@ -81,8 +83,16 @@ const styles = StyleSheet.create({
     },
     event: {
         position: 'absolute',
-        backgroundColor: 'deeppink',
-        opacity: 0.8
+        backgroundColor: 'rgb(19,122,209)',
+        opacity: 0.8,
+        borderColor: 'rgb(22,88,176)',
+        borderLeftWidth: 3
+    },
+    eventTitle: {
+        color: 'white',
+        marginTop: 5,
+        marginLeft: 4,
+        fontWeight: '600'
     },
     line: {
         height: 1,

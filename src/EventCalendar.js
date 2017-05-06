@@ -42,7 +42,6 @@ export default class EventCalendar extends React.Component {
         return (
             <VirtualizedList
                 getItemCount={() => 1e3}
-                windowSize={3}
                 initialNumToRender={3}
                 getItem={() => 1}
                 keyExtractor={(item, number) => `page${number}`}
