@@ -1,6 +1,6 @@
 // @flow
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import type { CalculatedEventDimens } from './Packer'
+import type { CalculatedEventDimens, StartEndEvent} from './Packer'
 import React from 'react';
 import _ from 'lodash';
 
@@ -15,7 +15,7 @@ const EVENT_PADDING_LEFT = 4;
 
 export default class DayView extends React.PureComponent {
     props: {
-        events: CalculatedEventDimens[],
+        events: StartEndEvent[],
         width: number
     }
 
@@ -48,7 +48,10 @@ export default class DayView extends React.PureComponent {
     }
 
     _renderEvents() {
-        return this.props.events.map((event, i) => {
+        let packer = new Packer(this.props.width - LEFT_MARGIN + 1);
+        const packedEvents = packer.populateEvents(this.props.events);
+        
+        return packedEvents.map((event, i) => {
             const style = {
                 left: event.left + LEFT_MARGIN,
                 height: event.height,
