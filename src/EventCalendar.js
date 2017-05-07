@@ -5,6 +5,7 @@ import FlatList from './rnUpstream/FlatList'
 import type { CalculatedEventDimens } from './Packer'
 import React from 'react';
 
+
 import Packer from './Packer';
 import DayView from './DayView';
 
@@ -48,7 +49,6 @@ export default class EventCalendar extends React.Component {
                 getItemLayout={this._getItemLayout}
                 horizontal
                 pagingEnabled
-                removeClippedSubviews={false}
                 renderItem={() => <DayView events={this.state.events} width={WIDTH}/>}
             />
         )
