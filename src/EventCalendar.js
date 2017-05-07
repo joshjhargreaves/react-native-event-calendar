@@ -4,12 +4,13 @@ import VirtualizedList from './rnUpstream/VirtualizedList'
 import FlatList from './rnUpstream/FlatList'
 import type { CalculatedEventDimens } from './Packer'
 import React from 'react';
+import _ from 'lodash';
 
 
 import Packer from './Packer';
 import DayView from './DayView';
 
-const { width: WIDTH } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const CALENDER_HEIGHT = 1024;
 const LEFT_MARGIN = 50 - 1;
 
@@ -19,7 +20,7 @@ export default class EventCalendar extends React.Component {
     }
     constructor() {
         super();
-        let packer = new Packer(WIDTH - LEFT_MARGIN + 1);
+        let packer = new Packer(width - LEFT_MARGIN + 1);
         let events = [
             { start: 30, end: 150 },
             { start: 540, end: 600 },
@@ -32,7 +33,7 @@ export default class EventCalendar extends React.Component {
     }
 
     _getItemLayout = (data: any, index: number) => (
-        { length: WIDTH, offset: WIDTH * index, index }
+        { length: width, offset: width * index, index }
     );
 
     _getItem = (data: Array<any>, index: number) => {
@@ -40,17 +41,20 @@ export default class EventCalendar extends React.Component {
     }
 
     _renderItem = ({index}) => {
-        return <DayView events={this.state.events} width={WIDTH}/>
+        // return <View style={{width: WIDTH, flex: 1, backgroundColor: 'steelblue'}} />
+        return <DayView events={this.state.events} width={width}/>
     }
 
     render() {
         return (
             <VirtualizedList
+                windowSize={2}
+                intialNumToRender={2}
+                initialScrollIndex={500}
+                data={['a','b','c']}
                 getItemCount={() => 1e3}
-                initialNumToRender={3}
-                windowSize={3}
-                getItem={this._getItem}
-                keyExtractor={(item, number) => `page${number}`}
+                getItem={(data, index) => data[index % 3]}
+                keyExtractor={(item, index) => String(index)}
                 getItemLayout={this._getItemLayout}
                 horizontal
                 pagingEnabled

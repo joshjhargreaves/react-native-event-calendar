@@ -72,7 +72,7 @@ export default class DayView extends React.PureComponent {
 
     render() {
         return (
-            <ScrollView>
+            <ScrollView style={{width: this.props.width}}>
                 <View style={[styles.container, {width: this.props.width}]}>
                     {this._renderLines()}
                     {this._renderEvents()}
