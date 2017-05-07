@@ -5,21 +5,34 @@ import EventCalendar from './src/EventCalendar';
 
 export default class App extends React.Component {
   state = {
-    events: [
+    events: [[
       { start: 30, end: 150 },
       { start: 540, end: 600 },
       { start: 560, end: 620 },
       { start: 610, end: 670 }
-    ]
+    ],[
+      { start: 100, end: 200 },
+      { start: 250, end: 350 },
+      { start: 325, end: 400 },
+      { start: 300, end: 400 }
+    ],[
+      { start: 100, end: 200 },
+      { start: 250, end: 350 },
+      { start: 325, end: 400 },
+      { start: 300, end: 400 },
+      { start: 250, end: 350 },
+      { start: 325, end: 400 },
+      { start: 300, end: 400 }
+    ]]
   }
 
-  _getEventsForIndex() {
-
+  _getEventsForIndex = (data: any, index: number) => {
+      return this.state.events[Math.abs(index % this.state.events.length)];
   }
 
   render() {
     return (
-      <EventCalendar events={this.state.events} getEventsForIndex={this._getEventsForIndex()}/>
+      <EventCalendar events={this.state.events} getItem={this._getEventsForIndex}/>
     );
   }
 }
