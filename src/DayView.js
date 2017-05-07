@@ -56,6 +56,8 @@ export default class DayView extends React.PureComponent {
                 top: event.top,
             }
 
+            // Fixing the number of lines for the event title makes this calculation easier. 
+            // However it would make sense to overflow the title to a new line if needed
             const numberOfLines = Math.floor(event.height / TEXT_LINE_HEIGHT);
 
             return (

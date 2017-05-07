@@ -36,7 +36,11 @@ export default class EventCalendar extends React.Component {
     );
 
     _getItem = (data: Array<any>, index: number) => {
-        return null;
+        return {};
+    }
+
+    _renderItem = ({index}) => {
+        return <DayView events={this.state.events} width={WIDTH}/>
     }
 
     render() {
@@ -44,12 +48,13 @@ export default class EventCalendar extends React.Component {
             <VirtualizedList
                 getItemCount={() => 1e3}
                 initialNumToRender={3}
-                getItem={() => 1}
+                windowSize={3}
+                getItem={this._getItem}
                 keyExtractor={(item, number) => `page${number}`}
                 getItemLayout={this._getItemLayout}
                 horizontal
                 pagingEnabled
-                renderItem={() => <DayView events={this.state.events} width={WIDTH}/>}
+                renderItem={this._renderItem}
             />
         )
     }
