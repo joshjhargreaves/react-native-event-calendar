@@ -95,8 +95,10 @@ const styles = StyleSheet.create({
     event: {
         position: 'absolute',
         backgroundColor: 'rgb(19,122,209)',
+        // backgroundColor: 'mediumpurple',
         opacity: 0.8,
         borderColor: 'rgb(22,88,176)',
+        // borderColor: 'rebeccapurple',
         borderLeftWidth: 3,
         borderRadius: 1,
         paddingLeft: EVENT_PADDING_LEFT,
