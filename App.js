@@ -1,7 +1,9 @@
 // @flow
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Dimensions} from 'react-native';
 import EventCalendar from './src/EventCalendar';
+
+let { width } = Dimensions.get('window');
 
 export default class App extends React.Component {
   state = {
@@ -26,13 +28,22 @@ export default class App extends React.Component {
     ]]
   }
 
+  _eventTapped(event) {
+    alert(JSON.stringify(event));
+  }
+
   _getEventsForIndex = (data: any, index: number) => {
       return this.state.events[Math.abs(index % this.state.events.length)];
   }
 
   render() {
     return (
-      <EventCalendar events={this.state.events} getItem={this._getEventsForIndex}/>
+      <EventCalendar 
+        eventTapped={this._eventTapped}
+        events={this.state.events} 
+        getItem={this._getEventsForIndex}
+        width={width}
+      />
     );
   }
 }

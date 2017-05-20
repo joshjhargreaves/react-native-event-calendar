@@ -2,27 +2,20 @@
 
 export type StartEndEvent = {
     start: number,
-    end: number
+    end: number,
+    index?: number
 }
 
 export type CalculatedEventDimens = {
     top: number,
     height: number,
     width: number,
-    left: number
+    left: number,
+    index: number
 }
 
 export default class Packer {
-    calculatedEvents: CalculatedEventDimens[];
-    screenWidth: number;
-    events: any[];
-
-    constructor(screenWidth: number) {
-        this.calculatedEvents = [];
-        this.screenWidth = screenWidth;
-    }
-
-    buildEvent(column: any, left: number, width: number) {
+    static buildEvent(column: any, left: number, width: number) {
         column.top = column.start,
             column.height = column.end - column.start,
             column.width = width,
@@ -30,11 +23,11 @@ export default class Packer {
         return column;
     }
 
-    collision(a: any, b: any) {
+    static collision(a: any, b: any) {
         return a.end > b.start && a.start < b.end;
     }
 
-    expand(ev: any, column: number, columns: any[]) {
+    static expand(ev: any, column: number, columns: any[]) {
         var colSpan = 1;
 
         for (var i = column + 1; i < columns.length; i++) {
@@ -51,7 +44,7 @@ export default class Packer {
         return colSpan;
     }
 
-    pack(columns: any[], width: number) {
+    static pack(columns: any[], width: number, calculatedEvents: CalculatedEventDimens[]) {
         var colLength = columns.length;
 
         for (var i = 0; i < colLength; i++) {
@@ -61,15 +54,18 @@ export default class Packer {
                 var L = (i / colLength) * width;
                 var W = width * colSpan / colLength - 1;
 
-                this.calculatedEvents.push(this.buildEvent(col[j], L, W));
+                calculatedEvents.push(this.buildEvent(col[j], L, W));
             }
         }
     }
 
-    populateEvents(events: StartEndEvent[]): CalculatedEventDimens[] {
+    static populateEvents(events: StartEndEvent[], screenWidth: number): CalculatedEventDimens[] {
         let lastEnd: any, columns: any[], self = this;
+        let calculatedEvents: CalculatedEventDimens[] = [];
 
-        events = events.sort(function (a, b) {
+        events = events
+        .map((ev: StartEndEvent, index: number) => ({...ev, index: index}))
+        .sort(function (a, b) {
             if (a.start < b.start) return -1;
             if (a.start > b.start) return 1;
             if (a.end < b.end) return -1;
@@ -82,7 +78,7 @@ export default class Packer {
 
         events.forEach(function (ev, index) {
             if (lastEnd !== null && ev.start >= lastEnd) {
-                self.pack(columns, self.screenWidth);
+                self.pack(columns, screenWidth, calculatedEvents);
                 columns = [];
                 lastEnd = null;
             }
@@ -107,8 +103,8 @@ export default class Packer {
         });
 
         if (columns.length > 0) {
-            this.pack(columns, self.screenWidth);
+            this.pack(columns, screenWidth, calculatedEvents);
         }
-        return this.calculatedEvents;
+        return calculatedEvents;
     };
 }

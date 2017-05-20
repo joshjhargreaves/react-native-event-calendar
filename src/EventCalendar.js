@@ -1,5 +1,5 @@
 // @flow
-import { View, Dimensions, StyleSheet } from 'react-native';
+import { View, Dimensions, StyleSheet, ScrollView} from 'react-native';
 import VirtualizedList from './rnUpstream/VirtualizedList'
 import FlatList from './rnUpstream/FlatList'
 import type { CalculatedEventDimens, StartEndEvent} from './Packer'
@@ -10,7 +10,6 @@ import _ from 'lodash';
 import Packer from './Packer';
 import DayView from './DayView';
 
-const { width } = Dimensions.get('window');
 const CALENDER_HEIGHT = 1024;
 const LEFT_MARGIN = 50 - 1;
 const VIRTUAL_ITEM_COUNT = 1000;
@@ -18,16 +17,19 @@ const VIRTUAL_ITEM_COUNT = 1000;
 export default class EventCalendar extends React.Component {
     props: {
         getItem: (data: any, index: number) => StartEndEvent[],
-        events: StartEndEvent[][]
+        events: any,
+        eventTapped: (event: StartEndEvent) => void,
+        width: number
     }
 
     state: {
         events: CalculatedEventDimens[]
     }
 
-    _getItemLayout = (data: any, index: number) => (
-        { length: width, offset: width * index, index }
-    );
+    _getItemLayout = (data: any, index: number) => {
+        const { width } = this.props;
+        return { length: width, offset: width * index, index }
+    };
 
     _getItem = (data: Array<any>, index: number) => {
         return {};
@@ -35,7 +37,8 @@ export default class EventCalendar extends React.Component {
 
     _renderItem = ({index}) => {
         const events = this.props.getItem(this.props.events, index - VIRTUAL_ITEM_COUNT/2);
-        return <DayView events={events} width={width}/>
+        const {width} = this.props;
+        return <DayView eventTapped={this.props.eventTapped} events={events} width={width}/>
     }
 
     _getItem = ((data, index) => {
@@ -43,20 +46,24 @@ export default class EventCalendar extends React.Component {
     })
 
     render() {
+        const {width} = this.props;
         return (
-            <VirtualizedList
-                windowSize={2}
-                initialNumToRender={2}
-                initialScrollIndex={VIRTUAL_ITEM_COUNT/2}
-                data={['a','b','c']}
-                getItemCount={() => VIRTUAL_ITEM_COUNT}
-                getItem={this._getItem}
-                keyExtractor={(item, index) => String(index)}
-                getItemLayout={this._getItemLayout}
-                horizontal
-                pagingEnabled
-                renderItem={this._renderItem}
-            />
+            <ScrollView>
+                <VirtualizedList
+                    windowSize={2}
+                    initialNumToRender={2}
+                    initialScrollIndex={VIRTUAL_ITEM_COUNT/2}
+                    data={['a','b','c']}
+                    getItemCount={() => VIRTUAL_ITEM_COUNT}
+                    getItem={this._getItem}
+                    keyExtractor={(item, index) => String(index)}
+                    getItemLayout={this._getItemLayout}
+                    horizontal
+                    pagingEnabled
+                    renderItem={this._renderItem}
+                    style={{width: width}}
+                />
+            </ScrollView>
         )
     }
 }

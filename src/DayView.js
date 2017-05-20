@@ -1,5 +1,5 @@
 // @flow
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import type { CalculatedEventDimens, StartEndEvent} from './Packer'
 import React from 'react';
 import _ from 'lodash';
@@ -16,7 +16,8 @@ const EVENT_PADDING_LEFT = 4;
 export default class DayView extends React.PureComponent {
     props: {
         events: StartEndEvent[],
-        width: number
+        width: number,
+        eventTapped: (event: StartEndEvent) => void
     }
 
     _renderLines = () => {
@@ -47,13 +48,19 @@ export default class DayView extends React.PureComponent {
         });
     }
 
+    _onEventTapped = (event: StartEndEvent) => {
+
+        this.props.eventTapped(event);
+    }
+
     _renderEvents() {
-        let packer = new Packer(this.props.width - LEFT_MARGIN + 1);
-        const packedEvents = packer.populateEvents(this.props.events);
+        // let packer = new Packer(this.props.width - LEFT_MARGIN + 1);
+        const width = this.props.width - LEFT_MARGIN;
+        const packedEvents = Packer.populateEvents(this.props.events, width);
         
-        return packedEvents.map((event, i) => {
+        let events = packedEvents.map((event: CalculatedEventDimens, i) => {
             const style = {
-                left: event.left + LEFT_MARGIN,
+                left: event.left,
                 height: event.height,
                 width: event.width,
                 top: event.top,
@@ -64,23 +71,34 @@ export default class DayView extends React.PureComponent {
             const numberOfLines = Math.floor(event.height / TEXT_LINE_HEIGHT);
 
             return (
-                <View key={i} style={[styles.event, style]} >
-                    <Text numberOfLines={1} style={styles.eventTitle}>Event Title</Text>
-                    { numberOfLines > 1 ? 
-                        <Text numberOfLines={numberOfLines-1} style={[styles.eventSummary]}>London bridge station. Longer amounts of text. More text</Text> : null}
-                </View>
+                <TouchableOpacity 
+                    activeOpacity={0.5} 
+                    key={i} 
+                    style={[styles.event, style]} 
+                    onPress={() => this._onEventTapped(this.props.events[event.index])}> 
+                    <View >
+                        <Text numberOfLines={1} style={styles.eventTitle}>Event Title</Text>
+                        { numberOfLines > 1 ? 
+                            <Text numberOfLines={numberOfLines-1} style={[styles.eventSummary]}>London bridge station. Longer amounts of text. More text</Text> : null}
+                    </View>
+                </TouchableOpacity>
             )
         });
+        return (
+            <View>
+                <View style={{marginLeft: LEFT_MARGIN}}>
+                    {events}
+                </View>
+            </View>
+        )
     }
 
     render() {
         return (
-            <ScrollView style={{width: this.props.width}}>
-                <View style={[styles.container, {width: this.props.width}]}>
-                    {this._renderLines()}
-                    {this._renderEvents()}
-                </View>
-            </ScrollView>
+            <View style={[styles.container, {width: this.props.width}]}>
+                {this._renderLines()}
+                {this._renderEvents()}
+            </View>
         )
     }
 }
