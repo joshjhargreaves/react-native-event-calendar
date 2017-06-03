@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "eslint-config-prettier": "^1.7.0",
-    "expo": "^16.0.0",
+    "expo": "^17.0.0",
     "lodash": "^4.17.4",
     "react": "16.0.0-alpha.6",
     "react-native": "^0.43.4"
