@@ -4,7 +4,7 @@ import type { CalculatedEventDimens, StartEndEvent} from './Packer'
 import React from 'react';
 import _ from 'lodash';
 
-import Packer from './Packer'
+import populateEvents from './Packer'
 
 const LEFT_MARGIN = 50 - 1;
 const CALENDER_HEIGHT = 1024;
@@ -56,7 +56,7 @@ export default class DayView extends React.PureComponent {
     _renderEvents() {
         // let packer = new Packer(this.props.width - LEFT_MARGIN + 1);
         const width = this.props.width - LEFT_MARGIN;
-        const packedEvents = Packer.populateEvents(this.props.events, width);
+        const packedEvents = populateEvents(this.props.events, width);
         
         let events = packedEvents.map((event: CalculatedEventDimens, i) => {
             const style = {
@@ -113,10 +113,8 @@ const styles = StyleSheet.create({
     event: {
         position: 'absolute',
         backgroundColor: 'rgb(19,122,209)',
-        // backgroundColor: 'mediumpurple',
         opacity: 0.8,
         borderColor: 'rgb(22,88,176)',
-        // borderColor: 'rebeccapurple',
         borderLeftWidth: 3,
         borderRadius: 1,
         paddingLeft: EVENT_PADDING_LEFT,
