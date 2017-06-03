@@ -6,13 +6,11 @@ import type { CalculatedEventDimens, StartEndEvent} from './Packer'
 import type { DayViewStyle } from './style';
 import React from 'react';
 import _ from 'lodash';
-import styleConstructor, { DayViewStyleProps } from './style'
+import styleConstructor, { type DayViewStyleProps } from './style'
 
 import Packer from './Packer';
 import DayView from './DayView';
 
-const CALENDER_HEIGHT = 1024;
-const LEFT_MARGIN = 50 - 1;
 const VIRTUAL_ITEM_COUNT = 1000;
 
 type Props = {
@@ -20,14 +18,16 @@ type Props = {
     events: any,
     eventTapped: (event: StartEndEvent) => void,
     width: number,
-    theme?: DayViewStyleProps
+    styles?: DayViewStyleProps,
+    verticleScrollViewProps?: Object,
+    virtualizedListProps?: Object,
 }
 
 export default class EventCalendar extends React.Component<void, Props, void> {
     styles: DayViewStyle
     constructor(props: Props) {
         super(props);
-        this.styles = styleConstructor(props.theme);
+        this.styles = styleConstructor(props.styles);
     }
 
     _getItemLayout = (data: any, index: number) => {
@@ -50,9 +50,11 @@ export default class EventCalendar extends React.Component<void, Props, void> {
     })
 
     render() {
-        const {width} = this.props;
+        const {width, verticleScrollViewProps, virtualizedListProps} = this.props;
         return (
-            <ScrollView>
+            <ScrollView
+                {...verticleScrollViewProps}
+            >
                 <VirtualizedList
                     windowSize={2}
                     initialNumToRender={2}
@@ -66,6 +68,7 @@ export default class EventCalendar extends React.Component<void, Props, void> {
                     pagingEnabled
                     renderItem={this._renderItem}
                     style={{width: width}}
+                    {...virtualizedListProps}
                 />
             </ScrollView>
         )
