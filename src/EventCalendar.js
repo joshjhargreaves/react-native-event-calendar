@@ -3,9 +3,10 @@ import { View, Dimensions, StyleSheet, ScrollView} from 'react-native';
 import VirtualizedList from './rnUpstream/VirtualizedList'
 import FlatList from './rnUpstream/FlatList'
 import type { CalculatedEventDimens, StartEndEvent} from './Packer'
+import type { DayViewStyle } from './style';
 import React from 'react';
 import _ from 'lodash';
-
+import styleConstructor, { DayViewStyleProps } from './style'
 
 import Packer from './Packer';
 import DayView from './DayView';
@@ -14,16 +15,19 @@ const CALENDER_HEIGHT = 1024;
 const LEFT_MARGIN = 50 - 1;
 const VIRTUAL_ITEM_COUNT = 1000;
 
-export default class EventCalendar extends React.Component {
-    props: {
-        getItem: (data: any, index: number) => StartEndEvent[],
-        events: any,
-        eventTapped: (event: StartEndEvent) => void,
-        width: number
-    }
+type Props = {
+    getItem: (data: any, index: number) => StartEndEvent[],
+    events: any,
+    eventTapped: (event: StartEndEvent) => void,
+    width: number,
+    theme?: DayViewStyleProps
+}
 
-    state: {
-        events: CalculatedEventDimens[]
+export default class EventCalendar extends React.Component<void, Props, void> {
+    styles: DayViewStyle
+    constructor(props: Props) {
+        super(props);
+        this.styles = styleConstructor(props.theme);
     }
 
     _getItemLayout = (data: any, index: number) => {
@@ -38,7 +42,7 @@ export default class EventCalendar extends React.Component {
     _renderItem = ({index}) => {
         const events = this.props.getItem(this.props.events, index - VIRTUAL_ITEM_COUNT/2);
         const {width} = this.props;
-        return <DayView eventTapped={this.props.eventTapped} events={events} width={width}/>
+        return <DayView eventTapped={this.props.eventTapped} events={events} width={width} styles={this.styles}/>
     }
 
     _getItem = ((data, index) => {
