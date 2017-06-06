@@ -29,10 +29,13 @@ Coming soon...
 - Add optional max, end date props
 - Add starting date prop
 - Add onDateChanged cb prop Accept dates as props
-- General API review/clean-up. 
+- General API review/clean-up.
+- Fix Flow types: the internal flow types in the project haven't been thought out well.
+- Fix these and expose sane flow types from the project
 
 ## Examples
 See Examples dir. 
+
 N.B. the example project won't start in the middle of the VirtualizedList as 
-`initialScrollIndex` not in Expo SDK as of yet. 
-But this will work in a more up to date version of React-native. 
+`initialScrollIndex` not in React-native version included in the Expo SDK as of yet. 
+This functionality does work with newer versions of react-native. 
