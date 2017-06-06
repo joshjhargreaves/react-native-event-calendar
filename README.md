@@ -1,7 +1,9 @@
 # React Native Event Calendar
 A React Native iOS style calendar implemented using VirtualizedList.
 
-This is a WIP project and the API is currently being fleshed out. 
+This is a WIP project and the API is currently being fleshed out.
+
+[View it with Expo](https://getexponent.com/@joshyhargreaves/react-native-event-calendar)
 
 ## Demo
 <a href="https://raw.githubusercontent.com/joshyhargreaves/react-native-event-calendar/master/demo/demo.mp4"><img src="https://raw.githubusercontent.com/joshyhargreaves/react-native-event-calendar/master/demo/demo.gif" width="360"></a>
