@@ -15,6 +15,7 @@ import styleConstructor, { type DayViewStyleProps } from './style';
 
 import Packer from './Packer';
 import DayView from './DayView';
+import Expo from 'expo';
 
 const VIRTUAL_ITEM_COUNT = 1000;
 
