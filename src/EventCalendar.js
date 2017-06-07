@@ -42,38 +42,41 @@ export default class EventCalendar extends React.Component<void, Props, void> {
   };
 
   _getItem = (data: Array<any>, index: number) => {
-    return {};
-  };
-
-  _renderItem = ({ index }) => {
     const events = this.props.getItem(
       this.props.events,
+      // TODO: pass current date this index corresponds to
+      // instead of the index itself
       index - VIRTUAL_ITEM_COUNT / 2
     );
+    return events;
+  };
+
+  _renderItem = ({ index, item }) => {
     const { width } = this.props;
     return (
       <DayView
         eventTapped={this.props.eventTapped}
-        events={events}
+        events={item}
         width={width}
         styles={this.styles}
       />
     );
   };
 
-  _getItem = (data, index) => {
-    return -1;
-  };
-
   render() {
-    const { width, verticleScrollViewProps, virtualizedListProps } = this.props;
+    const {
+      width,
+      verticleScrollViewProps,
+      virtualizedListProps,
+      events,
+    } = this.props;
     return (
       <ScrollView {...verticleScrollViewProps}>
         <VirtualizedList
           windowSize={2}
           initialNumToRender={2}
           initialScrollIndex={VIRTUAL_ITEM_COUNT / 2}
-          data={['a', 'b', 'c']}
+          data={events}
           getItemCount={() => VIRTUAL_ITEM_COUNT}
           getItem={this._getItem}
           keyExtractor={(item, index) => String(index)}
