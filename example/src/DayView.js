@@ -93,14 +93,15 @@ export default class DayView extends React.PureComponent {
       const numberOfLines = Math.floor(event.height / TEXT_LINE_HEIGHT)
       const formatTime = this.props.format24h ? 'HH:mm' : 'hh:mm A'
       return (
-        <TouchableOpacity
-          activeOpacity={0.5}
+        <View
           key={i}
           style={[styles.event, style]}
-          onPress={() => this._onEventTapped(this.props.events[event.index])}
         >
           {this.props.renderEvent ? this.props.renderEvent(event) : (
-            <View>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => this._onEventTapped(this.props.events[event.index])}
+            >
               <Text numberOfLines={1} style={styles.eventTitle}>{event.title || 'Event'}</Text>
               {numberOfLines > 1
                 ? <Text
@@ -113,9 +114,9 @@ export default class DayView extends React.PureComponent {
               {numberOfLines > 2
                 ? <Text style={styles.eventTimes} numberOfLines={1}>{moment(event.start).format(formatTime)} - {moment(event.end).format(formatTime)}</Text>
                 : null}
-            </View>
+            </TouchableOpacity>
           )}
-        </TouchableOpacity>
+        </View>
       )
     })
     return (
