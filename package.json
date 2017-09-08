@@ -1,8 +1,8 @@
 {
   "name": "react-native-events-calendar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "show events each day",
-  "main": "../src/EventCalendar.js",
+  "main": "./src/EventCalendar.js",
   
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

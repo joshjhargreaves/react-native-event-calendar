@@ -36,6 +36,7 @@ export default class App extends React.Component {
         eventTapped={this._eventTapped.bind(this)}
         events={this.state.events}
         width={width}
+        initDate={'2017-09-07'}
       />
     )
   }

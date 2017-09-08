@@ -14,8 +14,9 @@ width | PropTypes.number | Container width
 format24h | PropTypes.boolean | Use format 24hour or 12hour
 formatHeader | PropTypes.string | Header date format
 headerStyle | PropTypes.object | Header style
-renderEvent | PropTypes.function | Function return a component to render event
+renderEvent | PropTypes.function | Function return a component to render event `renderEvent={(event) => <Text>{event.title}</Text>}`
 eventTapped | PropTypes.function | Function on event press
+initDate | PropTypes.string | show initial date (default is today)
 virtualizedListProps | PropTypes.object | prop pass to virtualizedList
 
 `EventCalendar` can be configured through a `style` prop whereby any of the components in the calendar can be styled. 
@@ -29,11 +30,15 @@ virtualizedListProps | PropTypes.object | prop pass to virtualizedList
         }
     }
 ```
+## Install
+`npm i --save react-native-events-calendar`
 
 ## Examples
 See Examples dir. 
 
 ```js
+import EventCalendar from 'react-native-events-calendar'
+
 let { width } = Dimensions.get('window')
 
 const events = [
@@ -58,6 +63,7 @@ render () {
       eventTapped={this._eventTapped.bind(this)}
       events={this.state.events}
       width={width}
+      initDate={'2017-09-08'}
     />
   )
 }

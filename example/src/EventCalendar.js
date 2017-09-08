@@ -63,14 +63,16 @@ export default class EventCalendar extends React.Component {
     const {
       width,
       virtualizedListProps,
-      events
+      events,
+      initDate
     } = this.props
+    const initialIndex = initDate ? moment(initDate).diff(moment().startOf('day'), 'day') + VIRTUAL_ITEM_COUNT / 2 : VIRTUAL_ITEM_COUNT / 2
     return (
       <VirtualizedList
         ref={ref => (this.horizontalList = ref)}
         windowSize={2}
         initialNumToRender={2}
-        initialScrollIndex={VIRTUAL_ITEM_COUNT / 2}
+        initialScrollIndex={initialIndex}
         data={events}
         getItemCount={() => VIRTUAL_ITEM_COUNT}
         getItem={this._getItem.bind(this)}
