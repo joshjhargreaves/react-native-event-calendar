@@ -1,15 +1,22 @@
 # React Native Event Calendar
 A React Native iOS style calendar implemented using VirtualizedList.
-
-This is a WIP project and the API is currently being fleshed out.
-
-[View it with Expo](https://getexponent.com/@joshyhargreaves/react-native-event-calendar)
+This package is forked of https://github.com/joshyhargreaves/react-native-event-calendar
+allow run without expo and improve somethings
 
 ## Demo
-<a href="https://raw.githubusercontent.com/joshyhargreaves/react-native-event-calendar/master/demo/demo.mp4"><img src="https://raw.githubusercontent.com/joshyhargreaves/react-native-event-calendar/master/demo/demo.gif" width="360"></a>
+<a href="https://raw.githubusercontent.com/duyluonglc/react-native-event-calendar/master/demo/demo.mp4"><img src="https://raw.githubusercontent.com/duyluonglc/react-native-event-calendar/master/demo/demo.gif" width="360"></a>
 
 ## Current API
-Proper documentation coming soon...
+Property | Type | Description
+------------ | ------------- | -------------
+events | PropTypes.array | Array of event
+width | PropTypes.number | Container width
+format24h | PropTypes.boolean | Use format 24hour or 12hour
+formatHeader | PropTypes.string | Header date format
+headerStyle | PropTypes.object | Header style
+renderEvent | PropTypes.function | Function return a component to render event
+eventTapped | PropTypes.function | Function on event press
+virtualizedListProps | PropTypes.object | prop pass to virtualizedList
 
 `EventCalendar` can be configured through a `style` prop whereby any of the components in the calendar can be styled. 
 ```
@@ -23,21 +30,36 @@ Proper documentation coming soon...
     }
 ```
 
-## Proposed API changes
-Coming soon...
-
-## TODO
-- Accept dates as props for start and end times of events
-- Add optional max, end date props
-- Add starting date prop
-- Add onDateChanged cb prop Accept dates as props
-- General API review/clean-up.
-- Fix Flow types: the internal flow types in the project haven't been thought out well.
-- Fix these and expose sane flow types from the project
-
 ## Examples
 See Examples dir. 
 
-N.B. the example project won't start in the middle of the VirtualizedList as 
-`initialScrollIndex` not in React-native version included in the Expo SDK as of yet. 
-This functionality does work with newer versions of react-native. 
+```js
+let { width } = Dimensions.get('window')
+
+const events = [
+    { start: '2017-09-07 00:30:00', end: '2017-09-07 01:30:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+    { start: '2017-09-07 01:30:00', end: '2017-09-07 02:20:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+    { start: '2017-09-07 04:10:00', end: '2017-09-07 04:40:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+    { start: '2017-09-07 01:05:00', end: '2017-09-07 01:45:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+    { start: '2017-09-07 14:30:00', end: '2017-09-07 16:30:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+    { start: '2017-09-08 01:20:00', end: '2017-09-08 02:20:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+    { start: '2017-09-08 04:10:00', end: '2017-09-08 04:40:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+    { start: '2017-09-08 00:45:00', end: '2017-09-08 01:45:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+    { start: '2017-09-08 11:30:00', end: '2017-09-08 12:30:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+    { start: '2017-09-09 01:30:00', end: '2017-09-09 02:00:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+    { start: '2017-09-09 03:10:00', end: '2017-09-09 03:40:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+    { start: '2017-09-09 00:10:00', end: '2017-09-09 01:45:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' }
+]
+
+
+render () {
+  return (
+    <EventCalendar
+      eventTapped={this._eventTapped.bind(this)}
+      events={this.state.events}
+      width={width}
+    />
+  )
+}
+
+```

@@ -1,57 +1,42 @@
-// @flow
-import Expo from 'expo';
-import React from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import React from 'react'
+import { Dimensions } from 'react-native'
 
-import EventCalendar from '../src/EventCalendar';
+import EventCalendar from './src/EventCalendar'
 
-let { width } = Dimensions.get('window');
+let { width } = Dimensions.get('window')
 
-class App extends React.Component {
-  state = {
-    events: [
-      [
-        { start: 30, end: 150 },
-        { start: 540, end: 600 },
-        { start: 560, end: 620 },
-        { start: 610, end: 670 },
-      ],
-      [
-        { start: 100, end: 200 },
-        { start: 250, end: 350 },
-        { start: 325, end: 400 },
-        { start: 300, end: 400 },
-      ],
-      [
-        { start: 100, end: 200 },
-        { start: 250, end: 350 },
-        { start: 325, end: 400 },
-        { start: 300, end: 400 },
-        { start: 250, end: 350 },
-        { start: 325, end: 400 },
-        { start: 300, end: 400 },
-      ],
-    ],
-  };
-
-  _eventTapped(event) {
-    alert(JSON.stringify(event));
+export default class App extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      events: [
+        { start: '2017-09-07 00:30:00', end: '2017-09-07 01:30:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+        { start: '2017-09-07 01:30:00', end: '2017-09-07 02:20:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+        { start: '2017-09-07 04:10:00', end: '2017-09-07 04:40:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+        { start: '2017-09-07 01:05:00', end: '2017-09-07 01:45:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+        { start: '2017-09-07 14:30:00', end: '2017-09-07 16:30:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+        { start: '2017-09-08 01:20:00', end: '2017-09-08 02:20:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+        { start: '2017-09-08 04:10:00', end: '2017-09-08 04:40:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+        { start: '2017-09-08 00:45:00', end: '2017-09-08 01:45:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+        { start: '2017-09-08 11:30:00', end: '2017-09-08 12:30:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+        { start: '2017-09-09 01:30:00', end: '2017-09-09 02:00:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+        { start: '2017-09-09 03:10:00', end: '2017-09-09 03:40:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
+        { start: '2017-09-09 00:10:00', end: '2017-09-09 01:45:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' }
+      ]
+    }
   }
 
-  _getEventsForIndex = (data: any, index: number) => {
-    return this.state.events[Math.abs(index % this.state.events.length)];
-  };
+  _eventTapped (event) {
+    alert(JSON.stringify(event))
+  }
 
-  render() {
+  render () {
     return (
       <EventCalendar
-        eventTapped={this._eventTapped}
+        eventTapped={this._eventTapped.bind(this)}
         events={this.state.events}
-        getItem={this._getEventsForIndex}
         width={width}
       />
-    );
+    )
   }
 }
-
-Expo.registerRootComponent(App);

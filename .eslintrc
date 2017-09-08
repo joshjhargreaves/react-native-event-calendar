@@ -1,4 +1,0 @@
-{
-    "extends": [ "airbnb", "prettier" ],
-    "plugins": ["react", "react-native", "flowtype"]
-}
