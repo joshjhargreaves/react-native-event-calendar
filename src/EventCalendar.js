@@ -63,12 +63,12 @@ export default class EventCalendar extends React.Component {
   }
 
   _goToPage(index) {
-    if (this.state.isLocked || index <= 0 || index >= this.props.size * 2) {
+    if (index <= 0 || index >= this.props.size * 2) {
       return
     }
     const date = moment(this.props.initDate).add(index - this.props.size, 'days')
-    this.setState({ index, date, isLocked: true })
-    this.refs.calendar.scrollToIndex({ index })
+    this.refs.calendar.scrollToIndex({ index, animated: false })
+    this.setState({ index, date })
   }
 
   render() {
@@ -104,11 +104,10 @@ export default class EventCalendar extends React.Component {
           pagingEnabled
           renderItem={this._renderItem.bind(this)}
           style={{ width: width }}
-          onMomentumScrollStart={() => this.setState({ isLocked: true })}
           onMomentumScrollEnd={(event) => {
             const index = parseInt(event.nativeEvent.contentOffset.x / width)
             const date = moment(this.props.initDate).add(index - this.props.size, 'days')
-            this.setState({ index, date, isLocked: false })
+            this.setState({ index, date })
           }}
           {...virtualizedListProps}
         />
