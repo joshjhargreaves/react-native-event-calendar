@@ -17,6 +17,7 @@ headerStyle | PropTypes.object | Header style
 renderEvent | PropTypes.function | Function return a component to render event `renderEvent={(event) => <Text>{event.title}</Text>}`
 eventTapped | PropTypes.function | Function on event press
 initDate | PropTypes.string | show initial date (default is today)
+size | PropTypes.number | number of date will render before and after initDate (default is 30 will render 30 day before initDate and 29 day after initDate)
 virtualizedListProps | PropTypes.object | prop pass to virtualizedList
 
 `EventCalendar` can be configured through a `style` prop whereby any of the components in the calendar can be styled. 

@@ -1,7 +1,7 @@
 {
   "name": "react-native-events-calendar",
-  "version": "1.0.2",
-  "description": "show events each day",
+  "version": "1.0.3",
+  "description": "show calendar events by date",
   "main": "./src/EventCalendar.js",
   
   "scripts": {
@@ -12,6 +12,7 @@
     "url": "git+https://github.com/duyluonglc/react-native-event-calendar.git"
   },
   "keywords": [
+    "react-native",
     "calendar",
     "event",
     "events",
