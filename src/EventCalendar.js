@@ -1,6 +1,10 @@
 // @flow
 import {
-  VirtualizedList
+  VirtualizedList,
+  View,
+  TouchableOpacity,
+  Image,
+  Text
 } from 'react-native'
 import _ from 'lodash'
 import moment from 'moment'
@@ -15,12 +19,15 @@ export default class EventCalendar extends React.Component {
     super(props)
     this.styles = styleConstructor(props.styles)
     this.state = {
-      date: moment()
+      date: moment(this.props.initDate),
+      index: this.props.size
     }
   }
 
   static defaultProps = {
-    size: 30
+    size: 30,
+    initDate: new Date(),
+    formatHeader: 'DD MMMM YYYY'
   }
 
   _getItemLayout(data, index) {
@@ -29,24 +36,20 @@ export default class EventCalendar extends React.Component {
   };
 
   _getItem(events, index) {
-    const date = moment().add(index - this.props.size, 'days')
+    const date = moment(this.props.initDate).add(index - this.props.size, 'days')
     return _.filter(events, event => {
       const eventStartTime = moment(event.start)
       return eventStartTime >= date.clone().startOf('day') && eventStartTime <= date.clone().endOf('day')
     })
   }
 
-  _keyExtractor(item, index) {
-    const date = moment().add(index - this.props.size, 'days')
-    return date.format('YYYY-MM-DD')
-  };
-
   _renderItem({ index, item }) {
-    const { width, format24h } = this.props
-    const date = moment().add(index - this.props.size, 'days')
+    const { width, format24h, initDate } = this.props
+    const date = moment(initDate).add(index - this.props.size, 'days')
     return (
       <DayView
         date={date}
+        index={index}
         format24h={format24h}
         formatHeader={this.props.formatHeader}
         headerStyle={this.props.headerStyle}
@@ -57,33 +60,60 @@ export default class EventCalendar extends React.Component {
         styles={this.styles}
       />
     )
-  };
+  }
+
+  _goToPage(index) {
+    if (this.state.isLocked || index <= 0 || index >= this.props.size * 2) {
+      return
+    }
+    const date = moment(this.props.initDate).add(index - this.props.size, 'days')
+    this.setState({ index, date, isLocked: true })
+    this.refs.calendar.scrollToIndex({ index })
+  }
 
   render() {
     const {
       width,
       virtualizedListProps,
       events,
-      initDate
+      initDate,
+      formatHeader
     } = this.props
-    const initialIndex = initDate ? moment(initDate).diff(moment().startOf('day'), 'day') + this.props.size : this.props.size
     return (
-      <VirtualizedList
-        ref={ref => (this.horizontalList = ref)}
-        windowSize={2}
-        initialNumToRender={2}
-        initialScrollIndex={initialIndex}
-        data={events}
-        getItemCount={() => this.props.size * 2}
-        getItem={this._getItem.bind(this)}
-        keyExtractor={this._keyExtractor.bind(this)}
-        getItemLayout={this._getItemLayout.bind(this)}
-        horizontal
-        pagingEnabled
-        renderItem={this._renderItem.bind(this)}
-        style={{ width: width }}
-        {...virtualizedListProps}
-      />
+      <View style={[this.styles.container, { width }]}>
+        <View style={this.styles.header}>
+          <TouchableOpacity onPress={() => this._goToPage(this.state.index - 1)}>
+            <Image source={require('./back.png')} style={this.styles.arrow} />
+          </TouchableOpacity>
+          <Text style={this.styles.headerText}>{this.state.date.format(formatHeader || 'DD MMMM YYYY')}</Text>
+          <TouchableOpacity onPress={() => this._goToPage(this.state.index + 1)}>
+            <Image source={require('./forward.png')} style={this.styles.arrow} />
+          </TouchableOpacity>
+        </View>
+        <VirtualizedList
+          ref='calendar'
+          windowSize={2}
+          initialNumToRender={2}
+          initialScrollIndex={this.props.size}
+          data={events}
+          getItemCount={() => this.props.size * 2}
+          getItem={this._getItem.bind(this)}
+          keyExtractor={(item, index) => index}
+          getItemLayout={this._getItemLayout.bind(this)}
+          horizontal
+          pagingEnabled
+          renderItem={this._renderItem.bind(this)}
+          style={{ width: width }}
+          onMomentumScrollStart={() => this.setState({ isLocked: true })}
+          onMomentumScrollEnd={(event) => {
+            const index = parseInt(event.nativeEvent.contentOffset.x / width)
+            const date = moment(this.props.initDate).add(index - this.props.size, 'days')
+            this.setState({ index, date, isLocked: false })
+          }}
+          {...virtualizedListProps}
+        />
+      </View>
+
     )
   }
 }

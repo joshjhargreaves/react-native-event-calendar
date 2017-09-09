@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dimensions } from 'react-native'
+import { Dimensions, View } from 'react-native'
 
 import EventCalendar from './src/EventCalendar'
 
@@ -32,13 +32,15 @@ export default class App extends React.Component {
 
   render () {
     return (
-      <EventCalendar
-        eventTapped={this._eventTapped.bind(this)}
-        events={this.state.events}
-        width={width}
-        numberOfDay={60}
-        initDate={'2017-09-07'}
-      />
+      <View style={{flex: 1, marginTop: 20}}>
+        <EventCalendar
+          eventTapped={this._eventTapped.bind(this)}
+          events={this.state.events}
+          width={width}
+          numberOfDay={60}
+          initDate={'2017-09-07'}
+        />
+      </View>
     )
   }
 }

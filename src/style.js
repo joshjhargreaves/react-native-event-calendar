@@ -2,7 +2,7 @@
 import { StyleSheet } from 'react-native'
 
 const calendarHeight = 2400
-const eventPaddingLeft = 4
+// const eventPaddingLeft = 4
 const leftMargin = 50 - 1
 
 export default function styleConstructor (
@@ -27,13 +27,16 @@ export default function styleConstructor (
       backgroundColor: '#F5F5F6',
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'center'
+      alignItems: 'center',
+      ...theme.header
     },
     headerText: {
       fontSize: 16
     },
     arrow: {
-      fontSize: 16
+      width: 15,
+      height: 15,
+      resizeMode: 'contain'
     },
     event: {
       position: 'absolute',

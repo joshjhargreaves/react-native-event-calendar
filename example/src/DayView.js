@@ -128,28 +128,13 @@ export default class DayView extends React.PureComponent {
     )
   }
 
-  _renderHeader () {
-    const { date, styles, formatHeader, headerStyle } = this.props
-    const headerText = [styles.headerText, headerStyle]
-    return (
-      <View style={styles.header}>
-        <TouchableOpacity onPress={this.props.goNext}><Text style={styles.arrow}>{'〈'}</Text></TouchableOpacity>
-        <Text style={headerText}>{date.format(formatHeader || 'DD MMMM YYYY')}</Text>
-        <TouchableOpacity onPress={this.props.goPrevious}><Text style={styles.arrow}>{'〉'}</Text></TouchableOpacity>
-      </View>
-    )
-  }
-
   render () {
     const { styles } = this.props
     return (
-      <View style={[styles.container, { width: this.props.width }]}>
-        {this._renderHeader()}
-        <ScrollView contentContainerStyle={styles.contentStyle}>
-          {this._renderLines()}
-          {this._renderEvents()}
-        </ScrollView>
-      </View>
+      <ScrollView contentContainerStyle={[styles.contentStyle, {width: this.props.width}]}>
+        {this._renderLines()}
+        {this._renderEvents()}
+      </ScrollView>
     )
   }
 }
