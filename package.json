@@ -1,6 +1,6 @@
 {
   "name": "react-native-events-calendar",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "show calendar events by date",
   "main": "./src/EventCalendar.js",
   
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/duyluonglc/react-native-event-calendar.git"
+    "url": "git+https://github.com/duyluonglc/react-native-events-calendar.git"
   },
   "keywords": [
     "react-native",
@@ -29,7 +29,7 @@
   "author": "Duy Luong",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/duyluonglc/react-native-event-calendar/issues"
+    "url": "https://github.com/duyluonglc/react-native-events-calendar/issues"
   },
-  "homepage": "https://github.com/duyluonglc/react-native-event-calendar#readme"
+  "homepage": "https://github.com/duyluonglc/react-native-events-calendar#readme"
 }
