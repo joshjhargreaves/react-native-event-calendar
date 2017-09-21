@@ -39,12 +39,13 @@ export default class EventCalendar extends React.Component {
     const date = moment(this.props.initDate).add(index - this.props.size, 'days')
     return _.filter(events, event => {
       const eventStartTime = moment(event.start)
-      return eventStartTime >= date.clone().startOf('day') && eventStartTime <= date.clone().endOf('day')
+      return eventStartTime >= date.clone().startOf('day') &&
+        eventStartTime <= date.clone().endOf('day')
     })
   }
 
   _renderItem({ index, item }) {
-    const { width, format24h, initDate } = this.props
+    const { width, format24h, initDate, scrollToFirst } = this.props
     const date = moment(initDate).add(index - this.props.size, 'days')
     return (
       <DayView
@@ -58,6 +59,7 @@ export default class EventCalendar extends React.Component {
         events={item}
         width={width}
         styles={this.styles}
+        scrollToFirst={scrollToFirst}
       />
     )
   }

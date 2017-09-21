@@ -8,6 +8,7 @@ import {
 import populateEvents from './Packer'
 import React from 'react'
 import moment from 'moment'
+import _ from 'lodash'
 
 const LEFT_MARGIN = 60 - 1
 // const RIGHT_MARGIN = 10
@@ -22,6 +23,37 @@ function range (from, to) {
 }
 
 export default class DayView extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    const width = props.width - LEFT_MARGIN
+    const packedEvents = populateEvents(props.events, width)
+    let initPosition = _.min(_.map(packedEvents, 'top')) - CALENDER_HEIGHT / 24
+    initPosition = initPosition < 0 ? 0 : initPosition
+    this.state = {
+      _scrollY: initPosition,
+      packedEvents
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const width = nextProps.width - LEFT_MARGIN
+    this.setState({
+      packedEvents: populateEvents(nextProps.events, width)
+    })
+  }
+
+  componentDidMount () {
+    this.props.scrollToFirst && this.scrollToFirst()
+  }
+
+  scrollToFirst () {
+    if (this.state._scrollY) {
+      setTimeout(() => {
+        this._scrollView.scrollTo({ x: 0, y: this.state._scrollY, animated: true })
+      }, 1)
+    }
+  }
+
   _renderLines () {
     const offset = CALENDER_HEIGHT / 24
     const { format24h } = this.props
@@ -77,9 +109,7 @@ export default class DayView extends React.PureComponent {
 
   _renderEvents () {
     const { styles } = this.props
-    const width = this.props.width - LEFT_MARGIN
-    const packedEvents = populateEvents(this.props.events, width)
-
+    const { packedEvents } = this.state
     let events = packedEvents.map((event, i) => {
       const style = {
         left: event.left,
@@ -119,6 +149,7 @@ export default class DayView extends React.PureComponent {
         </View>
       )
     })
+
     return (
       <View>
         <View style={{ marginLeft: LEFT_MARGIN }}>
@@ -131,7 +162,9 @@ export default class DayView extends React.PureComponent {
   render () {
     const { styles } = this.props
     return (
-      <ScrollView contentContainerStyle={[styles.contentStyle, {width: this.props.width}]}>
+      <ScrollView ref={ref => (this._scrollView = ref)}
+        contentContainerStyle={[styles.contentStyle, { width: this.props.width }]}
+      >
         {this._renderLines()}
         {this._renderEvents()}
       </ScrollView>

@@ -17,6 +17,7 @@ headerStyle | PropTypes.object | Header style
 renderEvent | PropTypes.function | Function return a component to render event `renderEvent={(event) => <Text>{event.title}</Text>}`
 eventTapped | PropTypes.function | Function on event press
 initDate | PropTypes.string | show initial date (default is today)
+scrollToFirst | PropTypes.boolean | scroll to first event of the day (default true)
 size | PropTypes.number | number of date will render before and after initDate (default is 30 will render 30 day before initDate and 29 day after initDate)
 virtualizedListProps | PropTypes.object | prop pass to virtualizedList
 
