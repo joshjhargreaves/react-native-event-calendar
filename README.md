@@ -4,7 +4,7 @@ This package is forked of https://github.com/joshyhargreaves/react-native-event-
 allow run without expo and improve somethings
 
 ## Demo
-<img src="https://raw.githubusercontent.com/duyluonglc/react-native-event-calendar/master/demo/screenshot.png" width="360">
+<img src="https://raw.githubusercontent.com/duyluonglc/react-native-events-calendar/master/demo/screenshot.png" width="360">
 
 ## Current API
 Property | Type | Description
