@@ -166,6 +166,7 @@ export default class DayView extends React.PureComponent {
         contentContainerStyle={[styles.contentStyle, { width: this.props.width }]}
       >
         {this._renderLines()}
+        {this._renderRedLine()}
         {this._renderEvents()}
       </ScrollView>
     )
