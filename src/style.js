@@ -82,13 +82,6 @@ export default function styleConstructor (
       backgroundColor: 'rgb(216,216,216)',
       ...theme.line
     },
-    lineNow: {
-      height: 1,
-      position: 'absolute',
-      left: leftMargin,
-      backgroundColor: 'red',
-      ...theme.line
-    },
     timeLabel: {
       position: 'absolute',
       left: 15,
