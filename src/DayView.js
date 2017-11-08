@@ -54,6 +54,19 @@ export default class DayView extends React.PureComponent {
     }, 1)
   }
 
+  _renderRedLine() {
+      const offset = CALENDER_HEIGHT / 24
+      const { format24h } = this.props
+      const { width, styles } = this.props
+      const timeNowHour = moment().hour()
+      const timeNowMin = moment().minutes()
+      return (
+          <View key={`timeNow`}
+            style={[styles.lineNow, { top: offset * timeNowHour + offset * timeNowMin / 60, width: width - 20 }]}
+          />
+    )
+  }
+
   _renderLines () {
     const offset = CALENDER_HEIGHT / 24
     const { format24h } = this.props
@@ -167,6 +180,7 @@ export default class DayView extends React.PureComponent {
       >
         {this._renderLines()}
         {this._renderEvents()}
+        {this._renderRedLine()}
       </ScrollView>
     )
   }
