@@ -1,7 +1,7 @@
 import React from 'react'
 import { Dimensions, View } from 'react-native'
 
-import EventCalendar from './src/EventCalendar'
+import EventCalendar from 'react-native-events-calendar'
 
 let { width } = Dimensions.get('window')
 

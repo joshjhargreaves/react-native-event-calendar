@@ -10,7 +10,8 @@
 		"lodash": "^4.17.4",
 		"moment": "^2.18.1",
 		"react": "16.0.0-alpha.12",
-		"react-native": "0.48.1"
+		"react-native": "0.48.1",
+		"react-native-events-calendar": "../"
 	},
 	"devDependencies": {
 		"babel-jest": "21.0.0",
