@@ -1,99 +1,120 @@
 // @flow
 import {
-  View,
-  Dimensions,
-  StyleSheet,
-  ScrollView,
   VirtualizedList,
-  FlatList,
-} from 'react-native';
-import type { CalculatedEventDimens, StartEndEvent } from './Packer';
-import type { DayViewStyle } from './style';
-import React from 'react';
+  View,
+  TouchableOpacity,
+  Image,
+  Text
+} from 'react-native'
+import _ from 'lodash'
+import moment from 'moment'
+import React from 'react'
 
-import styleConstructor, { type DayViewStyleProps } from './style';
+import styleConstructor from './style'
 
-import Packer from './Packer';
-import DayView from './DayView';
-import Expo from 'expo';
+import DayView from './DayView'
 
-const VIRTUAL_ITEM_COUNT = 1000;
-
-type Props = {
-  getItem: (data: any, index: number) => StartEndEvent[],
-  events: any,
-  eventTapped: (event: StartEndEvent) => void,
-  width: number,
-  styles?: DayViewStyleProps,
-  verticleScrollViewProps?: Object,
-  virtualizedListProps?: Object,
-};
-
-export default class EventCalendar extends React.Component<void, Props, void> {
-  styles: DayViewStyle;
-  constructor(props: Props) {
-    super(props);
-    this.styles = styleConstructor(props.styles);
+export default class EventCalendar extends React.Component {
+  constructor(props) {
+    super(props)
+    this.styles = styleConstructor(props.styles)
+    this.state = {
+      date: moment(this.props.initDate),
+      index: this.props.size
+    }
   }
 
-  _getItemLayout = (data: any, index: number) => {
-    const { width } = this.props;
-    return { length: width, offset: width * index, index };
+  static defaultProps = {
+    size: 30,
+    initDate: new Date(),
+    formatHeader: 'DD MMMM YYYY'
+  }
+
+  _getItemLayout(data, index) {
+    const { width } = this.props
+    return { length: width, offset: width * index, index }
   };
 
-  _getItem = (data: Array<any>, index: number) => {
-    const events = this.props.getItem(
-      this.props.events,
-      // TODO: pass current date this index corresponds to
-      // instead of the index itself
-      index - VIRTUAL_ITEM_COUNT / 2
-    );
-    return events;
-  };
+  _getItem(events, index) {
+    const date = moment(this.props.initDate).add(index - this.props.size, 'days')
+    return _.filter(events, event => {
+      const eventStartTime = moment(event.start)
+      return eventStartTime >= date.clone().startOf('day') &&
+        eventStartTime <= date.clone().endOf('day')
+    })
+  }
 
-  _renderItem = ({ index, item }) => {
-    const { width } = this.props;
+  _renderItem({ index, item }) {
+    const { width, format24h, initDate, scrollToFirst } = this.props
+    const date = moment(initDate).add(index - this.props.size, 'days')
     return (
       <DayView
+        date={date}
+        index={index}
+        format24h={format24h}
+        formatHeader={this.props.formatHeader}
+        headerStyle={this.props.headerStyle}
+        renderEvent={this.props.renderEvent}
         eventTapped={this.props.eventTapped}
         events={item}
         width={width}
         styles={this.styles}
+        scrollToFirst={scrollToFirst}
       />
-    );
-  };
+    )
+  }
+
+  _goToPage(index) {
+    if (index <= 0 || index >= this.props.size * 2) {
+      return
+    }
+    const date = moment(this.props.initDate).add(index - this.props.size, 'days')
+    this.refs.calendar.scrollToIndex({ index, animated: false })
+    this.setState({ index, date })
+  }
 
   render() {
     const {
       width,
-      verticleScrollViewProps,
       virtualizedListProps,
       events,
-    } = this.props;
+      initDate,
+      formatHeader
+    } = this.props
     return (
-      <ScrollView {...verticleScrollViewProps}>
+      <View style={[this.styles.container, { width }]}>
+        <View style={this.styles.header}>
+          <TouchableOpacity onPress={() => this._goToPage(this.state.index - 1)}>
+            <Image source={require('./back.png')} style={this.styles.arrow} />
+          </TouchableOpacity>
+          <Text style={this.styles.headerText}>{this.state.date.format(formatHeader || 'DD MMMM YYYY')}</Text>
+          <TouchableOpacity onPress={() => this._goToPage(this.state.index + 1)}>
+            <Image source={require('./forward.png')} style={this.styles.arrow} />
+          </TouchableOpacity>
+        </View>
         <VirtualizedList
+          ref='calendar'
           windowSize={2}
           initialNumToRender={2}
-          initialScrollIndex={VIRTUAL_ITEM_COUNT / 2}
+          initialScrollIndex={this.props.size}
           data={events}
-          getItemCount={() => VIRTUAL_ITEM_COUNT}
-          getItem={this._getItem}
-          keyExtractor={(item, index) => String(index)}
-          getItemLayout={this._getItemLayout}
+          getItemCount={() => this.props.size * 2}
+          getItem={this._getItem.bind(this)}
+          keyExtractor={(item, index) => index}
+          getItemLayout={this._getItemLayout.bind(this)}
           horizontal
           pagingEnabled
-          renderItem={this._renderItem}
+          renderItem={this._renderItem.bind(this)}
           style={{ width: width }}
+          onMomentumScrollEnd={(event) => {
+            const index = parseInt(event.nativeEvent.contentOffset.x / width)
+            const date = moment(this.props.initDate).add(index - this.props.size, 'days')
+            this.setState({ index, date })
+          }}
           {...virtualizedListProps}
         />
-      </ScrollView>
-    );
+      </View>
+
+    )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

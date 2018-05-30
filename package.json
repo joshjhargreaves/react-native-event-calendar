@@ -1,42 +1,35 @@
 {
-  "name": "react-native-event-calendar",
-  "version": "0.0.1",
-  "description": "An iOS calendar like calendar for React Native",
-  "main": "src/index.js",
-  "repository": "https://github.com/joshyhargreaves/react-native-event-calendar.git",
-  "author": "Josh Hargreaves <joshyhargreaves@gmail.com>",
-  "license": "MIT",
-  "files": [
-    "src/"
-  ],
+  "name": "react-native-events-calendar",
+  "version": "1.0.8",
+  "description": "show calendar events by date",
+  "main": "./src/EventCalendar.js",
+  
   "scripts": {
-    "flow": "flow",
-    "prettier": "prettier --single-quote --trailing-comma es5 --write \"{src,example}/**/*.js\"" 
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshyhargreaves/react-native-event-calendar.git"
   },
   "keywords": [
-    "react-native-component",
-    "react-component",
     "react-native",
-    "ios",
-    "android",
     "calendar",
-    "swipe"
+    "event",
+    "events",
+    "daily"
   ],
-  "peerDependencies": {
-    "react": "*",
-    "react-native": "*"
-  },
-  "dependencies": {},
-  "jest": {
-    "preset": "react-native",
-    "modulePathIgnorePatterns": [
-      "<rootDir>/example/node_modules"
-    ]
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1"
   },
   "devDependencies": {
-    "expo": "^17.0.0",
-    "prettier": "^1.4.2",
     "react": "16.0.0-alpha.6",
     "react-native": "^0.44.0"
-  }
+  },
+  "author": "Duy Luong & Josh Hargreaves",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joshyhargreaves/react-native-event-calendar/issues"
+  },
+  "homepage": "https://github.com/joshyhargreaves/react-native-event-calendar#readme"
 }

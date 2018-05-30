@@ -2,50 +2,89 @@
 import {
   View,
   Text,
-  StyleSheet,
   ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import type { CalculatedEventDimens, StartEndEvent } from './Packer';
-import type { DayViewStyle } from './style';
-import React from 'react';
+  TouchableOpacity
+} from 'react-native'
+import populateEvents from './Packer'
+import React from 'react'
+import moment from 'moment'
+import _ from 'lodash'
 
-import populateEvents from './Packer';
+const LEFT_MARGIN = 60 - 1
+// const RIGHT_MARGIN = 10
+const CALENDER_HEIGHT = 2400
+// const EVENT_TITLE_HEIGHT = 15
+const TEXT_LINE_HEIGHT = 17
+// const MIN_EVENT_TITLE_WIDTH = 20
+// const EVENT_PADDING_LEFT = 4
 
-const LEFT_MARGIN = 50 - 1;
-const CALENDER_HEIGHT = 1024;
-const EVENT_TITLE_HEIGHT = 15;
-const TEXT_LINE_HEIGHT = 17;
-const MIN_EVENT_TITLE_WIDTH = 20;
-const EVENT_PADDING_LEFT = 4;
-
-type Props = {
-  events: StartEndEvent[],
-  width: number,
-  eventTapped: (event: StartEndEvent) => void,
-  styles: DayViewStyle,
-};
-
-function range(from: number, to: number): number[] {
-  return Array.from(Array(to), (_, i) => from + i);
+function range (from, to) {
+  return Array.from(Array(to), (_, i) => from + i)
 }
 
-export default class DayView extends React.PureComponent<void, Props, void> {
-  _renderLines = () => {
-    const offset = CALENDER_HEIGHT / 24;
+export default class DayView extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    const width = props.width - LEFT_MARGIN
+    const packedEvents = populateEvents(props.events, width)
+    let initPosition = _.min(_.map(packedEvents, 'top')) - CALENDER_HEIGHT / 24
+    initPosition = initPosition < 0 ? 0 : initPosition
+    this.state = {
+      _scrollY: initPosition,
+      packedEvents
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const width = nextProps.width - LEFT_MARGIN
+    this.setState({
+      packedEvents: populateEvents(nextProps.events, width)
+    })
+  }
+
+  componentDidMount () {
+    this.props.scrollToFirst && this.scrollToFirst()
+  }
+
+  scrollToFirst () {
+    setTimeout(() => {
+      if (this.state && this.state._scrollY && this._scrollView) {
+        this._scrollView.scrollTo({ x: 0, y: this.state._scrollY, animated: true })
+      }
+    }, 1)
+  }
+
+  _renderRedLine() {
+      const offset = CALENDER_HEIGHT / 24
+      const { format24h } = this.props
+      const { width, styles } = this.props
+      const timeNowHour = moment().hour()
+      const timeNowMin = moment().minutes()
+      return (
+          <View key={`timeNow`}
+            style={[styles.lineNow, { top: offset * timeNowHour + offset * timeNowMin / 60, width: width - 20 }]}
+          />
+    )
+  }
+
+  _renderLines () {
+    const offset = CALENDER_HEIGHT / 24
+    const { format24h } = this.props
 
     return range(0, 25).map((item, i) => {
-      let timeText;
-      if (i == 0) {
-        timeText = `12 AM`;
+      let timeText
+      if (i === 0) {
+        timeText = ``
       } else if (i < 12) {
-        timeText = `${i} AM`;
-      } else if (i > 12) {
-        timeText = `${i - 12} PM`;
+        timeText = !format24h ? `${i} AM` : i
+      } else if (i === 12) {
+        timeText = !format24h ? `${i} PM` : i
+      } else if (i === 24) {
+        timeText = !format24h ? `12 AM` : 0
       } else {
-        timeText = 'Noon';
+        timeText = !format24h ? `${i - 12} PM` : i
       }
-      const { width, styles } = this.props;
+      const { width, styles } = this.props
       return [
         <Text
           key={`timeLabel${i}`}
@@ -53,82 +92,96 @@ export default class DayView extends React.PureComponent<void, Props, void> {
         >
           {timeText}
         </Text>,
+        i === 0 ? null : (
+          <View
+            key={`line${i}`}
+            style={[styles.line, { top: offset * i, width: width - 20 }]}
+          />
+        ),
         <View
-          key={`line${i}`}
-          style={[styles.line, { top: offset * i, width: width - 20 }]}
-        />,
-      ];
-    });
+          key={`lineHalf${i}`}
+          style={[styles.line, { top: offset * (i + 0.5), width: width - 20 }]}
+        />
+      ]
+    })
   };
 
-  _renderTimeLabels() {
-    const { styles } = this.props;
-    const offset = 1000 / 24;
+  _renderTimeLabels () {
+    const { styles } = this.props
+    const offset = CALENDER_HEIGHT / 24
     return range(0, 24).map((item, i) => {
       return (
         <View key={`line${i}`} style={[styles.line, { top: offset * i }]} />
-      );
-    });
+      )
+    })
   }
 
-  _onEventTapped = (event: StartEndEvent) => {
-    this.props.eventTapped(event);
+  _onEventTapped (event) {
+    this.props.eventTapped(event)
   };
 
-  _renderEvents() {
-    const { styles } = this.props;
-    const width = this.props.width - LEFT_MARGIN;
-    const packedEvents = populateEvents(this.props.events, width);
-
-    let events = packedEvents.map((event: CalculatedEventDimens, i) => {
+  _renderEvents () {
+    const { styles } = this.props
+    const { packedEvents } = this.state
+    let events = packedEvents.map((event, i) => {
       const style = {
         left: event.left,
         height: event.height,
         width: event.width,
-        top: event.top,
-      };
+        top: event.top
+      }
 
       // Fixing the number of lines for the event title makes this calculation easier.
       // However it would make sense to overflow the title to a new line if needed
-      const numberOfLines = Math.floor(event.height / TEXT_LINE_HEIGHT);
-
+      const numberOfLines = Math.floor(event.height / TEXT_LINE_HEIGHT)
+      const formatTime = this.props.format24h ? 'HH:mm' : 'hh:mm A'
       return (
-        <TouchableOpacity
-          activeOpacity={0.5}
+        <View
           key={i}
           style={[styles.event, style]}
-          onPress={() => this._onEventTapped(this.props.events[event.index])}
         >
-          <View>
-            <Text numberOfLines={1} style={styles.eventTitle}>Event Title</Text>
-            {numberOfLines > 1
-              ? <Text
+          {this.props.renderEvent ? this.props.renderEvent(event) : (
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => this._onEventTapped(this.props.events[event.index])}
+            >
+              <Text numberOfLines={1} style={styles.eventTitle}>{event.title || 'Event'}</Text>
+              {numberOfLines > 1
+                ? <Text
                   numberOfLines={numberOfLines - 1}
                   style={[styles.eventSummary]}
                 >
-                  London bridge station. Longer amounts of text. More text
+                  {event.summary || ' '}
                 </Text>
-              : null}
-          </View>
-        </TouchableOpacity>
-      );
-    });
+                : null}
+              {numberOfLines > 2
+                ? <Text style={styles.eventTimes} numberOfLines={1}>{moment(event.start).format(formatTime)} - {moment(event.end).format(formatTime)}</Text>
+                : null}
+            </TouchableOpacity>
+          )}
+        </View>
+      )
+    })
+
     return (
       <View>
         <View style={{ marginLeft: LEFT_MARGIN }}>
           {events}
         </View>
       </View>
-    );
+    )
   }
 
-  render() {
-    const { styles } = this.props;
+  render () {
+    const { styles } = this.props
     return (
-      <View style={[styles.container, { width: this.props.width }]}>
+      <ScrollView ref={ref => (this._scrollView = ref)}
+        contentContainerStyle={[styles.contentStyle, { width: this.props.width }]}
+      >
         {this._renderLines()}
         {this._renderEvents()}
-      </View>
-    );
+        {this._renderRedLine()}
+      </ScrollView>
+    )
   }
 }

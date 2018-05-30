@@ -1,46 +1,50 @@
 // @flow
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
-const calendarHeight = 1024;
-const eventPaddingLeft = 4;
-const leftMargin = 50 - 1;
+const calendarHeight = 2400
+// const eventPaddingLeft = 4
+const leftMargin = 50 - 1
 
-export type DayViewStyle = {
-  container: StyleSheet.style,
-  event: StyleSheet.style,
-  eventTitle: StyleSheet.style,
-  eventSummary: StyleSheet.style,
-  line: StyleSheet.style,
-  timeLabel: StyleSheet.style,
-};
-
-export type DayViewStyleProps = {
-  container?: StyleSheet.style,
-  event?: StyleSheet.style,
-  eventTitle?: StyleSheet.style,
-  eventSummary?: StyleSheet.style,
-  line?: StyleSheet.style,
-  timeLabel?: StyleSheet.style,
-};
-
-export default function styleConstructor(
-  theme: DayViewStyleProps = {}
-): DayViewStyle {
-  let style: DayViewStyle = {
+export default function styleConstructor (
+  theme = {}
+) {
+  let style = {
     container: {
       flex: 1,
       backgroundColor: '#ffff',
-      height: calendarHeight + 10,
-      marginTop: 20,
-      ...theme.container,
+      ...theme.container
+    },
+    contentStyle: {
+      backgroundColor: '#ffff',
+      height: calendarHeight + 10
+    },
+    header: {
+      paddingHorizontal: 30,
+      height: 50,
+      borderTopWidth: 1,
+      borderBottomWidth: 1,
+      borderColor: '#E6E8F0',
+      backgroundColor: '#F5F5F6',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      ...theme.header
+    },
+    headerText: {
+      fontSize: 16
+    },
+    arrow: {
+      width: 15,
+      height: 15,
+      resizeMode: 'contain'
     },
     event: {
       position: 'absolute',
-      backgroundColor: 'rgb(19,122,209)',
+      backgroundColor: '#F0F4FF',
       opacity: 0.8,
-      borderColor: 'rgb(22,88,176)',
-      borderLeftWidth: 3,
-      borderRadius: 1,
+      borderColor: '#DDE5FD',
+      borderWidth: 1,
+      borderRadius: 5,
       paddingLeft: 4,
       minHeight: 25,
       flex: 1,
@@ -49,25 +53,41 @@ export default function styleConstructor(
       flexDirection: 'column',
       alignItems: 'flex-start',
       overflow: 'hidden',
-      ...theme.event,
+      ...theme.event
     },
     eventTitle: {
-      color: 'white',
+      color: '#615B73',
       fontWeight: '600',
       minHeight: 15,
-      ...theme.eventTitle,
+      ...theme.eventTitle
     },
     eventSummary: {
-      color: 'white',
+      color: '#615B73',
+      fontSize: 12,
       flexWrap: 'wrap',
-      ...theme.eventSummary,
+      ...theme.eventSummary
+    },
+    eventTimes: {
+      marginTop: 3,
+      fontSize: 10,
+      fontWeight: 'bold',
+      color: '#615B73',
+      flexWrap: 'wrap',
+      ...theme.eventTimes
     },
     line: {
       height: 1,
       position: 'absolute',
       left: leftMargin,
       backgroundColor: 'rgb(216,216,216)',
-      ...theme.line,
+      ...theme.line
+    },
+    lineNow: {
+      height: 1,
+      position: 'absolute',
+      left: leftMargin,
+      backgroundColor: 'red',
+      ...theme.line
     },
     timeLabel: {
       position: 'absolute',
@@ -76,8 +96,8 @@ export default function styleConstructor(
       fontSize: 10,
       fontFamily: 'Helvetica Neue',
       fontWeight: '500',
-      ...theme.timeLabel,
-    },
-  };
-  return StyleSheet.create(style);
+      ...theme.timeLabel
+    }
+  }
+  return StyleSheet.create(style)
 }

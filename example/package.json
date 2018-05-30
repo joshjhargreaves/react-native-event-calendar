@@ -1,13 +1,25 @@
 {
-  "name": "example",
-  "version": "0.0.0",
-  "description": "Hello Expo!",
-  "author": null,
-  "private": true,
-  "main": "main.js",
-  "dependencies": {
-    "expo": "17.0.0",
-    "react": "16.0.0-alpha.6",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-17.0.0.tar.gz"
-  }
+	"name": "example",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"start": "node node_modules/react-native/local-cli/cli.js start",
+		"test": "jest"
+	},
+	"dependencies": {
+		"lodash": "^4.17.4",
+		"moment": "^2.18.1",
+		"react": "16.0.0-alpha.12",
+		"react-native": "0.48.1",
+		"react-native-events-calendar": "../"
+	},
+	"devDependencies": {
+		"babel-jest": "21.0.0",
+		"babel-preset-react-native": "3.0.2",
+		"jest": "21.0.1",
+		"react-test-renderer": "16.0.0-alpha.12"
+	},
+	"jest": {
+		"preset": "react-native"
+	}
 }
