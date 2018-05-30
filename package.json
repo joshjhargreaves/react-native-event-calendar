@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/duyluonglc/react-native-events-calendar.git"
+    "url": "git+https://github.com/joshyhargreaves/react-native-event-calendar.git"
   },
   "keywords": [
     "react-native",
@@ -26,10 +26,10 @@
     "react": "16.0.0-alpha.6",
     "react-native": "^0.44.0"
   },
-  "author": "Duy Luong",
+  "author": "Duy Luong & Josh Hargreaves",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/duyluonglc/react-native-events-calendar/issues"
+    "url": "https://github.com/joshyhargreaves/react-native-event-calendar/issues"
   },
-  "homepage": "https://github.com/duyluonglc/react-native-events-calendar#readme"
+  "homepage": "https://github.com/joshyhargreaves/react-native-event-calendar#readme"
 }
