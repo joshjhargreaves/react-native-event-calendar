@@ -16,12 +16,15 @@ formatHeader | PropTypes.string | Header date format
 headerStyle | PropTypes.object | Header style
 renderEvent | PropTypes.function | Function return a component to render event `renderEvent={(event) => <Text>{event.title}</Text>}`
 eventTapped | PropTypes.function | Function on event press
-initDate | PropTypes.string | show initial date (default is today)
-scrollToFirst | PropTypes.boolean | scroll to first event of the day (default true)
-size | PropTypes.number | number of date will render before and after initDate (default is 30 will render 30 day before initDate and 29 day after initDate)
-virtualizedListProps | PropTypes.object | prop pass to virtualizedList
+initDate | PropTypes.string | Show initial date (default is today)
+scrollToFirst | PropTypes.boolean | Scroll to first event of the day (default true)
+size | PropTypes.number | Number of date will render before and after initDate (default is 30 will render 30 day before initDate and 29 day after initDate)
+virtualizedListProps | PropTypes.object | Prop pass to virtualizedList
+start | PropTypes.number | Start time (default 0)
+headerIconLeft | PropTypes.element | If specified, renders this element instead of the default left arrow image
+headerIconRight | PropTypes.element | If specified, renders this element instead of the default right arrow image
 
-`EventCalendar` can be configured through a `style` prop whereby any of the components in the calendar can be styled. 
+`EventCalendar` can be configured through a `styles` prop whereby any of the components in the calendar can be styled.
 ```
     {
         container: {
