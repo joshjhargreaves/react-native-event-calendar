@@ -86,10 +86,13 @@ export default class EventCalendar extends React.Component {
             events,
             initDate,
             formatHeader,
+            upperCaseHeader = false,
         } = this.props;
 
         const leftIcon = this.props.headerIconLeft ? this.props.headerIconLeft : (<Image source={require('./back.png')} style={this.styles.arrow} />);
         const rightIcon = this.props.headerIconRight ? this.props.headerIconRight : (<Image source={require('./forward.png')} style={this.styles.arrow} />);
+
+        let headerText = upperCaseHeader ? this.state.date.format(formatHeader || 'DD MMMM YYYY').toUpperCase() : this.state.date.format(formatHeader || 'DD MMMM YYYY');
 
         return (
             <View style={[this.styles.container, { width }]}>
@@ -98,7 +101,7 @@ export default class EventCalendar extends React.Component {
                         {leftIcon}
                     </TouchableOpacity>
                     <View style={this.styles.headerTextContainer}>
-                        <Text style={this.styles.headerText}>{this.state.date.format(formatHeader || 'DD MMMM YYYY')}</Text>
+                        <Text style={this.styles.headerText}>{headerText}</Text>
                     </View>
                     <TouchableOpacity style={this.styles.arrowButton} onPress={() => this._goToPage(this.state.index + 1)}>
                         {rightIcon}
