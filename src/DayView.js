@@ -131,7 +131,11 @@ export default class DayView extends React.PureComponent {
                 height: event.height,
                 width: event.width,
                 top: event.top
-            }
+            };
+
+            const eventColor = {
+                backgroundColor: event.color,
+            };
 
             // Fixing the number of lines for the event title makes this calculation easier.
             // However it would make sense to overflow the title to a new line if needed
@@ -140,7 +144,7 @@ export default class DayView extends React.PureComponent {
             return (
                 <View
                     key={i}
-                    style={[styles.event, style]}
+                    style={[styles.event, style, event.color && eventColor]}
                 >
                     {this.props.renderEvent ? this.props.renderEvent(event) : (
                         <TouchableOpacity
