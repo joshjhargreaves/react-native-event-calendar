@@ -27,7 +27,7 @@ export default class DayView extends React.PureComponent {
         super(props)
         this.calendarHeight = (props.end - props.start) * 100
         const width = props.width - LEFT_MARGIN
-        const packedEvents = populateEvents(props.events, width)
+        const packedEvents = populateEvents(props.events, width, props.start)
         let initPosition = _.min(_.map(packedEvents, 'top')) - this.calendarHeight / (props.end - props.start)
         initPosition = initPosition < 0 ? 0 : initPosition
         this.state = {
@@ -40,7 +40,7 @@ export default class DayView extends React.PureComponent {
     componentWillReceiveProps (nextProps) {
         const width = nextProps.width - LEFT_MARGIN
         this.setState({
-            packedEvents: populateEvents(nextProps.events, width)
+            packedEvents: populateEvents(nextProps.events, width, nextProps.start)
         })
     }
 
@@ -57,7 +57,7 @@ export default class DayView extends React.PureComponent {
     }
 
     _renderRedLine() {
-        const offset = this.calendarHeight / 24
+        const offset = 100
         const { format24h } = this.props
         const { width, styles } = this.props
         const timeNowHour = moment().hour()
