@@ -9,6 +9,7 @@ who kindly added some featues and improvements.
 ## Current API
 Property | Type | Description
 ------------ | ------------- | -------------
+onRef | PropTypes.function | Function fired to set the EventCalendar ref
 events | PropTypes.array | Array of event
 width | PropTypes.number | Container width
 format24h | PropTypes.boolean | Use format 24hour or 12hour
@@ -24,6 +25,7 @@ virtualizedListProps | PropTypes.object | Prop pass to virtualizedList
 start | PropTypes.number | Start time (default 0)
 headerIconLeft | PropTypes.element | If specified, renders this element instead of the default left arrow image
 headerIconRight | PropTypes.element | If specified, renders this element instead of the default right arrow image
+_goToDate | (date : string) => void | Requires the reference set using the `onRef` prop. E.g. `ref._goToDate('2017-09-07')`
 
 `EventCalendar` can be configured through a `styles` prop whereby any of the components in the calendar can be styled.
 ```
@@ -36,6 +38,7 @@ headerIconRight | PropTypes.element | If specified, renders this element instead
         }
     }
 ```
+
 ## Install
 `npm i --save react-native-events-calendar`
 
