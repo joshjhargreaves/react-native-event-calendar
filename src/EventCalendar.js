@@ -28,6 +28,18 @@ export default class EventCalendar extends React.Component {
         }
     }
 
+    componentDidMount() {
+        if (this.props.onRef) {
+            this.props.onRef(this);
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.props.onRef) {
+            this.props.onRef(undefined);
+        }
+    }
+
     static defaultProps = {
         size: 30,
         initDate: new Date(),
@@ -77,6 +89,12 @@ export default class EventCalendar extends React.Component {
         const date = moment(this.props.initDate).add(index - this.props.size, 'days')
         this.refs.calendar.scrollToIndex({ index, animated: false })
         this.setState({ index, date })
+    }
+
+    _goToDate(date) {
+        const earliestDate = moment(this.props.initDate).subtract(this.props.size, 'days')
+        const index = moment(date).diff(earliestDate, 'days');
+        this._goToPage(index);
     }
 
     render() {
