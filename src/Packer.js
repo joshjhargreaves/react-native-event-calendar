@@ -1,7 +1,6 @@
 // @flow
 import moment from 'moment'
-const CALENDER_HEIGHT = 2400
-const offset = CALENDER_HEIGHT / 24
+const offset = 100
 
 function buildEvent (column, left, width) {
   const startTime = moment(column.start)
