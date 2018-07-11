@@ -97,14 +97,14 @@ export default class EventCalendar extends React.Component {
         this._goToPage(index);
     }
 
-    _next = () => {
+    _previous = () => {
         this._goToPage(this.state.index - 1)
         if (this.props.dateChanged) {
             this.props.dateChanged(moment(this.props.initDate).add(this.state.index - 1 - this.props.size, 'days').format('YYYY-MM-DD'))
         }
     }
 
-    _previous = () => {
+    _next = () => {
         this._goToPage(this.state.index + 1)
         if (this.props.dateChanged) {
             this.props.dateChanged(moment(this.props.initDate).add(this.state.index + 1 - this.props.size, 'days').format('YYYY-MM-DD'))
@@ -129,13 +129,13 @@ export default class EventCalendar extends React.Component {
         return (
             <View style={[this.styles.container, { width }]}>
                 <View style={this.styles.header}>
-                    <TouchableOpacity style={this.styles.arrowButton} onPress={this._next}>
+                    <TouchableOpacity style={this.styles.arrowButton} onPress={this._previous}>
                         {leftIcon}
                     </TouchableOpacity>
                     <View style={this.styles.headerTextContainer}>
                         <Text style={this.styles.headerText}>{headerText}</Text>
                     </View>
-                    <TouchableOpacity style={this.styles.arrowButton} onPress={this._previous}>
+                    <TouchableOpacity style={this.styles.arrowButton} onPress={this._next}>
                         {rightIcon}
                     </TouchableOpacity>
                 </View>
@@ -156,6 +156,9 @@ export default class EventCalendar extends React.Component {
                     onMomentumScrollEnd={(event) => {
                         const index = parseInt(event.nativeEvent.contentOffset.x / width)
                         const date = moment(this.props.initDate).add(index - this.props.size, 'days')
+                        if (this.props.dateChanged) {
+                            this.props.dateChanged(date.format('YYYY-MM-DD'));
+                        }
                         this.setState({ index, date })
                     }}
                     {...virtualizedListProps}
