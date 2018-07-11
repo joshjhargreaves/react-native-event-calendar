@@ -64,7 +64,7 @@ export default class DayView extends React.PureComponent {
         const timeNowMin = moment().minutes()
         return (
             <View key={`timeNow`}
-                  style={[styles.lineNow, { top: offset * timeNowHour + offset * timeNowMin / 60, width: width - 20 }]}
+                  style={[styles.lineNow, { top: offset * (timeNowHour - this.props.start) + offset * timeNowMin / 60, width: width - 20 }]}
             />
         )
     }
