@@ -97,6 +97,20 @@ export default class EventCalendar extends React.Component {
         this._goToPage(index);
     }
 
+    _next = () => {
+        this._goToPage(this.state.index - 1)
+        if (this.props.dateChanged) {
+            this.props.dateChanged(moment(this.props.initDate).add(this.state.index - 1 - this.props.size, 'days').format('YYYY-MM-DD'))
+        }
+    }
+
+    _previous = () => {
+        this._goToPage(this.state.index + 1)
+        if (this.props.dateChanged) {
+            this.props.dateChanged(moment(this.props.initDate).add(this.state.index + 1 - this.props.size, 'days').format('YYYY-MM-DD'))
+        }
+    }
+
     render() {
         const {
             width,
@@ -115,13 +129,13 @@ export default class EventCalendar extends React.Component {
         return (
             <View style={[this.styles.container, { width }]}>
                 <View style={this.styles.header}>
-                    <TouchableOpacity style={this.styles.arrowButton} onPress={() => this._goToPage(this.state.index - 1)}>
+                    <TouchableOpacity style={this.styles.arrowButton} onPress={this._next}>
                         {leftIcon}
                     </TouchableOpacity>
                     <View style={this.styles.headerTextContainer}>
                         <Text style={this.styles.headerText}>{headerText}</Text>
                     </View>
-                    <TouchableOpacity style={this.styles.arrowButton} onPress={() => this._goToPage(this.state.index + 1)}>
+                    <TouchableOpacity style={this.styles.arrowButton} onPress={this._previous}>
                         {rightIcon}
                     </TouchableOpacity>
                 </View>

@@ -18,6 +18,7 @@ upperCaseHeader | PropTypes.boolean | Sets date header as uppercase (default fal
 headerStyle | PropTypes.object | Header style
 renderEvent | PropTypes.function | Function return a component to render event `renderEvent={(event) => <Text>{event.title}</Text>}`
 eventTapped | PropTypes.function | Function on event press
+dateChanged | PropTypes.function | Function on date change. Passes new date as a string formatted as 'YYYY-MM-DD'
 initDate | PropTypes.string | Show initial date (default is today)
 scrollToFirst | PropTypes.boolean | Scroll to first event of the day (default true)
 size | PropTypes.number | Number of date will render before and after initDate (default is 30 will render 30 day before initDate and 29 day after initDate)
