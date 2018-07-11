@@ -97,7 +97,7 @@ export default function styleConstructor (
             position: 'absolute',
             left: leftMargin,
             backgroundColor: 'red',
-            ...theme.line
+            ...theme.lineNow
         },
         timeLabel: {
             position: 'absolute',
