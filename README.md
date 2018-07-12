@@ -40,6 +40,17 @@ _goToDate | (date : string) => void | Requires the reference set using the `onRe
     }
 ```
 
+Event color can be overridden by specifying a `color` attribute inside the event object. E.g.
+```
+{
+    color: '#F4EFDB',
+    start: '2017-09-07 00:30:00',
+    end: '2017-09-07 01:30:00',
+    title: 'Dr. Mariana Joseph',
+    summary: '3412 Piedmont Rd NE, GA 3032'
+}
+```
+
 ## Install
 `npm i --save react-native-events-calendar`
 
