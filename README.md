@@ -24,6 +24,7 @@ scrollToFirst | PropTypes.boolean | Scroll to first event of the day (default tr
 size | PropTypes.number | Number of date will render before and after initDate (default is 30 will render 30 day before initDate and 29 day after initDate)
 virtualizedListProps | PropTypes.object | Prop pass to virtualizedList
 start | PropTypes.number | Start time (default 0)
+end | PropTypes.number | End time (default 24)
 headerIconLeft | PropTypes.element | If specified, renders this element instead of the default left arrow image
 headerIconRight | PropTypes.element | If specified, renders this element instead of the default right arrow image
 _goToDate | (date : string) => void | Requires the reference set using the `onRef` prop. E.g. `ref._goToDate('2017-09-07')`
