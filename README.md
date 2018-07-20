@@ -9,19 +9,27 @@ who kindly added some featues and improvements.
 ## Current API
 Property | Type | Description
 ------------ | ------------- | -------------
+onRef | PropTypes.function | Function fired to set the EventCalendar ref
 events | PropTypes.array | Array of event
 width | PropTypes.number | Container width
 format24h | PropTypes.boolean | Use format 24hour or 12hour
 formatHeader | PropTypes.string | Header date format
+upperCaseHeader | PropTypes.boolean | Sets date header as uppercase (default false)
 headerStyle | PropTypes.object | Header style
 renderEvent | PropTypes.function | Function return a component to render event `renderEvent={(event) => <Text>{event.title}</Text>}`
 eventTapped | PropTypes.function | Function on event press
-initDate | PropTypes.string | show initial date (default is today)
-scrollToFirst | PropTypes.boolean | scroll to first event of the day (default true)
-size | PropTypes.number | number of date will render before and after initDate (default is 30 will render 30 day before initDate and 29 day after initDate)
-virtualizedListProps | PropTypes.object | prop pass to virtualizedList
+dateChanged | PropTypes.function | Function on date change. Passes new date as a string formatted as 'YYYY-MM-DD'
+initDate | PropTypes.string | Show initial date (default is today)
+scrollToFirst | PropTypes.boolean | Scroll to first event of the day (default true)
+size | PropTypes.number | Number of date will render before and after initDate (default is 30 will render 30 day before initDate and 29 day after initDate)
+virtualizedListProps | PropTypes.object | Prop pass to virtualizedList
+start | PropTypes.number | Start time (default 0)
+end | PropTypes.number | End time (default 24)
+headerIconLeft | PropTypes.element | If specified, renders this element instead of the default left arrow image
+headerIconRight | PropTypes.element | If specified, renders this element instead of the default right arrow image
+_goToDate | (date : string) => void | Requires the reference set using the `onRef` prop. E.g. `ref._goToDate('2017-09-07')`
 
-`EventCalendar` can be configured through a `style` prop whereby any of the components in the calendar can be styled. 
+`EventCalendar` can be configured through a `styles` prop whereby any of the components in the calendar can be styled.
 ```
     {
         container: {
@@ -32,6 +40,18 @@ virtualizedListProps | PropTypes.object | prop pass to virtualizedList
         }
     }
 ```
+
+Event color can be overridden by specifying a `color` attribute inside the event object. E.g.
+```
+{
+    color: '#F4EFDB',
+    start: '2017-09-07 00:30:00',
+    end: '2017-09-07 01:30:00',
+    title: 'Dr. Mariana Joseph',
+    summary: '3412 Piedmont Rd NE, GA 3032'
+}
+```
+
 ## Install
 `npm i --save react-native-events-calendar`
 
