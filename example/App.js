@@ -110,13 +110,11 @@ export default class App extends React.Component {
           eventTapped={this._eventTapped.bind(this)}
           events={this.state.events}
           width={width}
-          numberOfDay={60}
           initDate={'2017-09-07'}
           scrollToFirst
           upperCaseHeader
           uppercase
           scrollToFirst={false}
-          size={2}
         />
       </View>
     );
