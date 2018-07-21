@@ -3,9 +3,17 @@
   "version": "1.0.8",
   "description": "show calendar events by date",
   "main": "./src/EventCalendar.js",
-  
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "precommit": "lint-staged",
+    "prettier": "prettier --single-quote --trailing-comma es5 --write",
+    "prettier-all": "prettier --single-quote --trailing-comma es5 --write \"**/*.js\""
+  },
+  "lint-staged": {
+    "*.js": [
+      "yarn prettier",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
@@ -23,6 +31,9 @@
     "moment": "^2.18.1"
   },
   "devDependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^7.2.0",
+    "prettier": "^1.13.7",
     "react": "16.0.0-alpha.6",
     "react-native": "^0.44.0"
   },
