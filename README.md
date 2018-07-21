@@ -55,8 +55,16 @@ Event color can be overridden by specifying a `color` attribute inside the event
 ## Install
 `npm i --save react-native-events-calendar`
 
+## Contributing
+The `example` project is configured to use the 'update-to-date' src of your checkout of
+`react-native-event-calendar`. Any changes to the repo can be easily tested by
+building and running the `example` project. The default react-native packager doesn't
+easily allow for this setup, so `npm run start` within the `example` directory will launch
+[haul](https://github.com/callstack/haul) which supports this & symlinks. Make sure `haul`
+is running when running the example project.
+
 ## Examples
-See Examples dir. 
+See `example` dir.
 
 ```js
 import EventCalendar from 'react-native-events-calendar'
