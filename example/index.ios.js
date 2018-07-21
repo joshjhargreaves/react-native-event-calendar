@@ -4,8 +4,8 @@
  * @flow
  */
 
-import { AppRegistry } from 'react-native'
+import { AppRegistry } from 'react-native';
 
-import App from './main'
+import App from './main';
 
-AppRegistry.registerComponent('example', () => App)
+AppRegistry.registerComponent('example', () => App);
