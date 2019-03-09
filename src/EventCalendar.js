@@ -21,10 +21,11 @@ export default class EventCalendar extends React.Component {
     const start = props.start ? props.start : 0;
     const end = props.end ? props.end : 24;
 
-    this.styles = styleConstructor(props.styles, (end - start) * 100);
+    this.styles = styleConstructor(props.styles, (end - start) * 100 * this.props.initScale);
     this.state = {
       date: moment(this.props.initDate),
       index: this.props.size,
+      scale: this.props.initScale,
     };
   }
 
@@ -44,6 +45,7 @@ export default class EventCalendar extends React.Component {
     size: 30,
     initDate: new Date(),
     formatHeader: 'DD MMMM YYYY',
+    initScale: 1,
   };
 
   _getItemLayout(data, index) {
@@ -126,6 +128,7 @@ export default class EventCalendar extends React.Component {
           scrollToFirst={scrollToFirst}
           start={start}
           end={end}
+          scale={this.state.scale}
         />
       </View>
     );

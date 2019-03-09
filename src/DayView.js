@@ -20,7 +20,7 @@ function range(from, to) {
 export default class DayView extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.calendarHeight = (props.end - props.start) * 100;
+    this.calendarHeight = (props.end - props.start) * 100 * props.scale;
     const width = props.width - LEFT_MARGIN;
     const packedEvents = populateEvents(props.events, width, props.start);
     let initPosition =
@@ -57,7 +57,7 @@ export default class DayView extends React.PureComponent {
   }
 
   _renderRedLine() {
-    const offset = 100;
+    const offset = 100 * this.props.scale;
     const { format24h } = this.props;
     const { width, styles } = this.props;
     const timeNowHour = moment().hour();
@@ -79,8 +79,8 @@ export default class DayView extends React.PureComponent {
   }
 
   _renderLines() {
-    const { format24h, start, end } = this.props;
-    const offset = this.calendarHeight / (end - start);
+    const { format24h, start, end, scale } = this.props;
+    const offset = 100 * scale;
 
     return range(start, end + 1).map((i, index) => {
       let timeText;
@@ -121,8 +121,8 @@ export default class DayView extends React.PureComponent {
   }
 
   _renderTimeLabels() {
-    const { styles, start, end } = this.props;
-    const offset = this.calendarHeight / (end - start);
+    const { styles, start, end, scale } = this.props;
+    const offset = 100 * scale;
     return range(start, end).map((item, i) => {
       return (
         <View key={`line${i}`} style={[styles.line, { top: offset * i }]} />
@@ -135,14 +135,14 @@ export default class DayView extends React.PureComponent {
   }
 
   _renderEvents() {
-    const { styles } = this.props;
+    const { styles, scale } = this.props;
     const { packedEvents } = this.state;
     let events = packedEvents.map((event, i) => {
       const style = {
         left: event.left,
-        height: event.height,
+        height: event.height * scale,
         width: event.width,
-        top: event.top,
+        top: event.top * scale,
       };
 
       const eventColor = {
