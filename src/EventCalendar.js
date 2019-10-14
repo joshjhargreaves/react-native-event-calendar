@@ -70,7 +70,8 @@ export default class EventCalendar extends React.Component {
       width,
       format24h,
       initDate,
-      scrollToFirst = true,
+      scrollToFirst = false,
+      scrollToNow = true,
       start = 0,
       end = 24,
       formatHeader,
@@ -124,6 +125,7 @@ export default class EventCalendar extends React.Component {
           width={width}
           styles={this.styles}
           scrollToFirst={scrollToFirst}
+          scrollToNow={scrollToNow}
           start={start}
           end={end}
         />
