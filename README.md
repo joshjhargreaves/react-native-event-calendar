@@ -16,6 +16,7 @@ format24h | PropTypes.boolean | Use format 24hour or 12hour
 formatHeader | PropTypes.string | Header date format
 upperCaseHeader | PropTypes.boolean | Sets date header as uppercase (default false)
 headerStyle | PropTypes.object | Header style
+hiddenHeader| PropTypes.boolean   | Hidden Header (default false)                                                             
 renderEvent | PropTypes.function | Function return a component to render event `renderEvent={(event) => <Text>{event.title}</Text>}`
 eventTapped | PropTypes.function | Function on event press
 dateChanged | PropTypes.function | Function on date change. Passes new date as a string formatted as 'YYYY-MM-DD'
