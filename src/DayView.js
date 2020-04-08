@@ -1,9 +1,9 @@
 // @flow
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import populateEvents from './Packer';
-import React from 'react';
-import moment from 'moment';
-import _ from 'lodash';
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import populateEvents from "./Packer";
+import React from "react";
+import moment from "moment";
+import _ from "lodash";
 
 const LEFT_MARGIN = 60 - 1;
 // const RIGHT_MARGIN = 10
@@ -24,7 +24,7 @@ export default class DayView extends React.PureComponent {
     const width = props.width - LEFT_MARGIN;
     const packedEvents = populateEvents(props.events, width, props.start);
     let initPosition =
-      _.min(_.map(packedEvents, 'top')) -
+      _.min(_.map(packedEvents, "top")) -
       this.calendarHeight / (props.end - props.start);
     initPosition = initPosition < 0 ? 0 : initPosition;
     this.state = {
@@ -33,7 +33,7 @@ export default class DayView extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const width = nextProps.width - LEFT_MARGIN;
     this.setState({
       packedEvents: populateEvents(nextProps.events, width, nextProps.start),
@@ -152,37 +152,36 @@ export default class DayView extends React.PureComponent {
       // Fixing the number of lines for the event title makes this calculation easier.
       // However it would make sense to overflow the title to a new line if needed
       const numberOfLines = Math.floor(event.height / TEXT_LINE_HEIGHT);
-      const formatTime = this.props.format24h ? 'HH:mm' : 'hh:mm A';
+      const formatTime = this.props.format24h ? "HH:mm" : "hh:mm A";
       return (
         <TouchableOpacity
           activeOpacity={0.5}
-          onPress={() =>
-            this._onEventTapped(this.props.events[event.index])
-          }
-          key={i} style={[styles.event, style, event.color && eventColor]}
+          onPress={() => this._onEventTapped(this.props.events[event.index])}
+          key={i}
+          style={[styles.event, style, event.color && eventColor]}
         >
           {this.props.renderEvent ? (
             this.props.renderEvent(event)
           ) : (
             <View>
               <Text numberOfLines={1} style={styles.eventTitle}>
-                {event.title || 'Event'}
+                {event.title || "Event"}
               </Text>
               {numberOfLines > 1 ? (
                 <Text
                   numberOfLines={numberOfLines - 1}
                   style={[styles.eventSummary]}
                 >
-                  {event.summary || ' '}
+                  {event.summary || " "}
                 </Text>
               ) : null}
               {numberOfLines > 2 ? (
                 <Text style={styles.eventTimes} numberOfLines={1}>
-                  {moment(event.start).format(formatTime)} -{' '}
+                  {moment(event.start).format(formatTime)} -{" "}
                   {moment(event.end).format(formatTime)}
                 </Text>
               ) : null}
-              </View>
+            </View>
           )}
         </TouchableOpacity>
       );
@@ -199,7 +198,7 @@ export default class DayView extends React.PureComponent {
     const { styles } = this.props;
     return (
       <ScrollView
-        ref={ref => (this._scrollView = ref)}
+        ref={(ref) => (this._scrollView = ref)}
         contentContainerStyle={[
           styles.contentStyle,
           { width: this.props.width },
