@@ -94,6 +94,8 @@ export default class DayView extends React.PureComponent {
         timeText = !format24h ? `${i}:00 PM` : `${i}:00`;
       } else if (i === 24) {
         timeText = !format24h ? `12:00 AM` : `00:00`;
+      } else if (i < 22) {
+        timeText = !format24h ? `0${i - 12}:00 PM` : `${i}:00`;
       } else {
         timeText = !format24h ? `${i - 12}:00 PM` : `${i}:00`;
       }
