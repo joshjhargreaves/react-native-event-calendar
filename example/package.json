@@ -7,7 +7,7 @@
 		"test": "jest"
 	},
 	"dependencies": {
-		"lodash": "^4.17.4",
+		"lodash": "^4.17.19",
 		"moment": "^2.18.1",
 		"react": "16.0.0-alpha.12",
 		"react-native": "0.55.4",
