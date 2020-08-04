@@ -1,26 +1,24 @@
 {
-	"name": "example",
-	"version": "0.0.1",
-	"private": true,
-	"scripts": {
-		"start": "haul",
-		"test": "jest"
-	},
-	"dependencies": {
-		"lodash": "^4.17.4",
-		"moment": "^2.18.1",
-		"react": "16.0.0-alpha.12",
-		"react-native": "0.55.4",
-		"react-native-events-calendar": "../"
-	},
-	"devDependencies": {
-		"haul": "1.0.0-rc.6",
-		"babel-jest": "21.0.0",
-		"babel-preset-react-native": "3.0.2",
-		"jest": "21.0.1",
-		"react-test-renderer": "16.0.0-alpha.12"
-	},
-	"jest": {
-		"preset": "react-native"
-	}
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject"
+  },
+  "dependencies": {
+    "expo": "~38.0.8",
+    "expo-status-bar": "^1.0.2",
+    "react": "~16.11.0",
+    "react-dom": "~16.11.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
+    "react-native-web": "~0.11.7",
+    "react-native-event-calendar": "../"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.6",
+    "babel-preset-expo": "~8.1.0"
+  },
+  "private": true
 }

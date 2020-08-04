@@ -37,8 +37,8 @@
     "react": "16.0.0-alpha.6",
     "react-native": "^0.44.0"
   },
-  "author": "Duy Luong & Josh Hargreaves",
-  "license": "ISC",
+  "author": "Josh Hargreaves",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/joshyhargreaves/react-native-event-calendar/issues"
   },
