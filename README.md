@@ -29,7 +29,7 @@ headerIconLeft | PropTypes.element | If specified, renders this element instead 
 headerIconRight | PropTypes.element | If specified, renders this element instead of the default right arrow image
 _goToDate | (date : string) => void | Requires the reference set using the `onRef` prop. E.g. `ref._goToDate('2017-09-07')`
 showRedLine | PropTypes.boolean | If you want to hide the red line
-onPressHour | PropTypes.function | Capture the event for every hour
+onPressHour | PropTypes.function | When the function is sent it enables the time to be pressed and capture the event
 
 `EventCalendar` can be configured through a `styles` prop whereby any of the components in the calendar can be styled.
 ```
