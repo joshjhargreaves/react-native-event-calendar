@@ -110,7 +110,7 @@ export default class DayView extends React.PureComponent {
         >
           {timeText}
         </Text>,
-       onPressHour && (<TouchableNativeFeedback onPress={() => onPressHour(value)}    key={`touchOne${i}`}>
+       onPressHour && (<TouchableNativeFeedback onPress={() => onPressHour({...value, minute:':00'})}    key={`touchOne${i}`}>
         <View
           key={`lineHalf${i}`}
           style={[
@@ -136,7 +136,7 @@ export default class DayView extends React.PureComponent {
             { top: offset * (index + 0.5), width: width - 20,  marginTop:4   },
           ]}
         />,
-        onPressHour && (<TouchableNativeFeedback  onPress={() => onPressHour({...value, half:':30',time:this._formatHour({format24h, hour:i, start, half:':30'})})}     key={`touch${i}`}>
+        onPressHour && (<TouchableNativeFeedback  onPress={() => onPressHour({...value, minute:':30',time:this._formatHour({format24h, hour:i, start, half:':30'})})}     key={`touch${i}`}>
           <View
             key={`lineHalf${i}`}
             style={[
