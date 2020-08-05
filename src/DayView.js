@@ -1,5 +1,5 @@
 // @flow
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
 import populateEvents from './Packer';
 import React from 'react';
 import moment from 'moment';
@@ -77,46 +77,81 @@ export default class DayView extends React.PureComponent {
       />
     );
   }
-
+  _formatHour({ format24h, hour, start, half='' }) { 
+    let timeText;
+    if (hour === start && hour!==0 ) {
+      timeText = ``;
+    } else if (hour === 0) {
+      timeText = !format24h ? `12${half} AM` : 24;
+    } else if (hour < 12) {
+      timeText = !format24h ? `${hour}${half} AM` : hour;
+    } else if (hour === 12) {
+      timeText = !format24h ? `${hour}${half} PM` : hour;
+    } else if (hour === 24) {
+      timeText = !format24h ? `12 AM` : 0;
+    } else {
+      timeText = !format24h ? `${hour - 12}${half} PM` : hour;
+    }
+    return timeText;
+  }
   _renderLines() {
-    const { format24h, start, end } = this.props;
+    const { format24h, start, end, onPressHour } = this.props;
     const offset = this.calendarHeight / (end - start);
 
     return range(start, end + 1).map((i, index) => {
-      let timeText;
-      if (i === start) {
-        timeText = ``;
-      } else if (i < 12) {
-        timeText = !format24h ? `${i} AM` : i;
-      } else if (i === 12) {
-        timeText = !format24h ? `${i} PM` : i;
-      } else if (i === 24) {
-        timeText = !format24h ? `12 AM` : 0;
-      } else {
-        timeText = !format24h ? `${i - 12} PM` : i;
-      }
+      const timeText = this._formatHour({ format24h, hour: i, start });
+      const value = { time: timeText, hour: i, start, end, format24h };
       const { width, styles } = this.props;
-      return [
+
+      const InterbalHour = [
         <Text
           key={`timeLabel${i}`}
-          style={[styles.timeLabel, { top: offset * index - 6 }]}
+          style={[styles.timeLabel, { top: offset * index - 6, marginTop:4 }]}
         >
           {timeText}
         </Text>,
+       onPressHour && (<TouchableNativeFeedback onPress={() => onPressHour(value)}    key={`touchOne${i}`}>
+        <View
+          key={`lineHalf${i}`}
+          style={[
+            {
+              height: 50,
+              position: 'absolute',
+              left: 50 - 1,
+            },
+            { top: offset * index, width: width - 20, marginTop:4 },
+          ]}
+          />
+      </TouchableNativeFeedback>),
         i === start ? null : (
           <View
             key={`line${i}`}
-            style={[styles.line, { top: offset * index, width: width - 20 }]}
+            style={[styles.line, { top: offset * index, width: width - 20, marginTop:4  }]}
           />
         ),
         <View
           key={`lineHalf${i}`}
           style={[
             styles.line,
-            { top: offset * (index + 0.5), width: width - 20 },
+            { top: offset * (index + 0.5), width: width - 20,  marginTop:4   },
           ]}
         />,
+        onPressHour && (<TouchableNativeFeedback  onPress={() => onPressHour({...value, time:this._formatHour({format24h, hour:i, start, half:':30'})})}     key={`touch${i}`}>
+          <View
+            key={`lineHalf${i}`}
+            style={[
+              {
+                height: 50,
+                position: 'absolute',
+                left: 50 - 1,
+              },
+              { top: offset * (index + 0.5), width: width - 20, marginTop:4  },
+            ]}
+            />
+        </TouchableNativeFeedback>),
       ];
+
+      return InterbalHour
     });
   }
 
@@ -154,17 +189,16 @@ export default class DayView extends React.PureComponent {
       const numberOfLines = Math.floor(event.height / TEXT_LINE_HEIGHT);
       const formatTime = this.props.format24h ? 'HH:mm' : 'hh:mm A';
       return (
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={() =>
-            this._onEventTapped(this.props.events[event.index])
-          }
-          key={i} style={[styles.event, style, event.color && eventColor]}
-        >
+        <View key={i} style={[styles.event, style, event.color && eventColor, {marginTop:4}]}>
           {this.props.renderEvent ? (
             this.props.renderEvent(event)
           ) : (
-            <View>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() =>
+                this._onEventTapped(this.props.events[event.index])
+              }
+            >
               <Text numberOfLines={1} style={styles.eventTitle}>
                 {event.title || 'Event'}
               </Text>
@@ -182,9 +216,9 @@ export default class DayView extends React.PureComponent {
                   {moment(event.end).format(formatTime)}
                 </Text>
               ) : null}
-              </View>
+            </TouchableOpacity>
           )}
-        </TouchableOpacity>
+        </View>
       );
     });
 
@@ -196,7 +230,7 @@ export default class DayView extends React.PureComponent {
   }
 
   render() {
-    const { styles } = this.props;
+    const { styles, showRedLine } = this.props;
     return (
       <ScrollView
         ref={ref => (this._scrollView = ref)}
@@ -207,7 +241,7 @@ export default class DayView extends React.PureComponent {
       >
         {this._renderLines()}
         {this._renderEvents()}
-        {this._renderRedLine()}
+        {showRedLine && this._renderRedLine()}
       </ScrollView>
     );
   }
