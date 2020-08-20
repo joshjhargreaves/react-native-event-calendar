@@ -191,7 +191,7 @@ export default class DayView extends React.PureComponent {
       return (
         <View key={i} style={[styles.event, style, event.color && eventColor, {marginTop:4}]}>
           {this.props.renderEvent ? (
-            this.props.renderEvent(event)
+            this.props.renderEvent({event, numberOfLines})
           ) : (
             <TouchableOpacity
               activeOpacity={0.5}
