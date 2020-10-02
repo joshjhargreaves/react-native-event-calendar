@@ -103,11 +103,16 @@ export default class App extends React.Component {
     alert(JSON.stringify(event));
   }
 
+  _hourTapped(dateAndTime) {
+    alert(JSON.stringify(dateAndTime)); // dateAndTime is an object Moment()
+  }
+
   render() {
     return (
       <View style={{ flex: 1, marginTop: 20 }}>
         <EventCalendar
           eventTapped={this._eventTapped.bind(this)}
+          hourTapped={this._hourTapped.bind(this)}
           events={this.state.events}
           width={width}
           initDate={'2017-09-07'}

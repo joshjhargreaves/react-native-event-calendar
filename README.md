@@ -90,6 +90,7 @@ const events = [
 render () {
   return (
     <EventCalendar
+      hourTapped={this._hourTapped.bind(this)}
       eventTapped={this._eventTapped.bind(this)}
       events={this.state.events}
       width={width}
