@@ -104,18 +104,23 @@ export default class DayView extends React.PureComponent {
           {timeText}
         </Text>,
         i === start ? null : (
-          <View
+          <TouchableOpacity 
+            activeOpacity={0.5}
             key={`line${i}`}
-            style={[styles.line, { top: offset * index, width: width - 20 }]}
-          />
+            onPress={() => this._onHourTapped() }
+            style={[styles.line, { top: offset * index, width: width - 20, height: offset / 2}]}
+          >
+            <View />
+          </TouchableOpacity>
         ),
-        <View
+        <TouchableOpacity
+          activeOpacity={0.5}
           key={`lineHalf${i}`}
-          style={[
-            styles.line,
-            { top: offset * (index + 0.5), width: width - 20 },
-          ]}
-        />,
+          onPress={() => this._onHourTapped() }
+          style={[ styles.line, { top: offset * (index + 0.5), width: width - 20, height: offset / 2 } ]}
+        >
+          <View />
+        </TouchableOpacity>
       ];
     });
   }
@@ -132,6 +137,13 @@ export default class DayView extends React.PureComponent {
 
   _onEventTapped(event) {
     this.props.eventTapped(event);
+  }
+
+  _onHourTapped() {
+    if (this.props.hourTappped === null) {
+      return;
+    }
+    this.props.hourTappped(this.props.date);
   }
 
   _renderEvents() {
