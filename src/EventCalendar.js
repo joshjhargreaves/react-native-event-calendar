@@ -17,10 +17,8 @@ import DayView from './DayView';
 export default class EventCalendar extends React.Component {
   constructor(props) {
     super(props);
-
     const start = props.start ? props.start : 0;
     const end = props.end ? props.end : 24;
-
     this.styles = styleConstructor(props.styles, (end - start) * 100);
     this.state = {
       date: moment(this.props.initDate),
@@ -75,6 +73,7 @@ export default class EventCalendar extends React.Component {
       end = 24,
       formatHeader,
       upperCaseHeader = false,
+      showRedLine = true,
     } = this.props;
     const date = moment(initDate).add(index - this.props.size, 'days');
 
@@ -113,6 +112,7 @@ export default class EventCalendar extends React.Component {
           </TouchableOpacity>
         </View>
         <DayView
+          onPressHour={this.props.onPressHour}
           date={date}
           index={index}
           format24h={format24h}
@@ -126,6 +126,7 @@ export default class EventCalendar extends React.Component {
           scrollToFirst={scrollToFirst}
           start={start}
           end={end}
+          showRedLine={showRedLine}
         />
       </View>
     );
@@ -179,7 +180,6 @@ export default class EventCalendar extends React.Component {
       width,
       virtualizedListProps,
       events,
-      initDate,
     } = this.props;
 
     return (
