@@ -20,7 +20,8 @@ renderEvent | PropTypes.function | Function return a component to render event `
 eventTapped | PropTypes.function | Function on event press
 dateChanged | PropTypes.function | Function on date change. Passes new date as a string formatted as 'YYYY-MM-DD'
 initDate | PropTypes.string | Show initial date (default is today)
-scrollToFirst | PropTypes.boolean | Scroll to first event of the day (default true)
+scrollToFirst | PropTypes.boolean | Scroll to first event of the day (default false)
+scrollToNow | PropTypes.boolean | Scroll to where the red line is, minus a couple of hours for padding (default true)
 size | PropTypes.number | Number of date will render before and after initDate (default is 30 will render 30 day before initDate and 29 day after initDate)
 virtualizedListProps | PropTypes.object | Prop pass to virtualizedList
 start | PropTypes.number | Start time (default 0)

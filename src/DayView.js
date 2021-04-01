@@ -41,7 +41,8 @@ export default class DayView extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.props.scrollToFirst && this.scrollToFirst();
+    this.props.scrollToFirst && !this.props.scrollToNow && this.scrollToFirst();
+    !this.props.scrollToFirst && this.props.scrollToNow && this.scrollToNow();  
   }
 
   scrollToFirst() {
@@ -50,6 +51,18 @@ export default class DayView extends React.PureComponent {
         this._scrollView.scrollTo({
           x: 0,
           y: this.state._scrollY,
+          animated: true,
+        });
+      }
+    }, 1);
+  }
+
+  scrollToNow() {
+    setTimeout(() => {
+      if (this._scrollView) {
+        this._scrollView.scrollTo({
+          x: 0,
+          y: 100 * ((moment().hour() - 3.2) - this.props.start),
           animated: true,
         });
       }
