@@ -25,6 +25,7 @@ size | PropTypes.number | Number of date will render before and after initDate (
 virtualizedListProps | PropTypes.object | Prop pass to virtualizedList
 start | PropTypes.number | Start time (default 0)
 end | PropTypes.number | End time (default 24)
+initScale | PropTypes.number | Initial scaling factor used to display the calendar (default value 1)
 headerIconLeft | PropTypes.element | If specified, renders this element instead of the default left arrow image
 headerIconRight | PropTypes.element | If specified, renders this element instead of the default right arrow image
 _goToDate | (date : string) => void | Requires the reference set using the `onRef` prop. E.g. `ref._goToDate('2017-09-07')`
